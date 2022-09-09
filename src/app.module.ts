@@ -11,6 +11,5 @@ import { AuthorsController } from './authors/authors.controller';
 
 @Module({
   imports: [TypeOrmModule.forRoot(typeOrmConfig), PersonModule, GenreModule, BookModule, AuthorsModule, BookAuthorsModule],
-  controllers: [AuthorsController],
 })
 export class AppModule {}

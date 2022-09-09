@@ -1,12 +1,27 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
+import { EmployeeService } from './employee/employ.service';
+import { employeeDto } from './employee/employee.dto';
 import { PersonDto } from './person.dto';
 import { PersonService } from './person.service';
 
 @Controller('person')
 export class PersonController {
-  constructor(private personService: PersonService){}
+  constructor(private personService: PersonService,
+              private employeeService: EmployeeService
+    ){}
 
-  @Get()
+    @Post('employee')
+    async createEmployee(@Body() data: employeeDto){
+      const user = await this.employeeService.create(data)
+      return user
+    }
+  
+    @Get('employee')
+    async getEmployee(){
+      return await this.employeeService.getAll()
+    }
+
+    @Get()
   async showAllPerson(){
     const data = this.personService.showAll();
     return data;
@@ -22,13 +37,13 @@ export class PersonController {
   }
 
   @Post()
-  async create(@Body(ValidationPipe) person: PersonDto){
+  async create(@Body() person: PersonDto){
     const data = await this.personService.createPerson(person);
     return data;
   }
 
   @Put(':id')
-  async update(@Param('id') id:number, @Body(ValidationPipe) person:PersonDto){
+  async update(@Param('id') id:number, @Body() person:PersonDto){
     const data = await this.personService.update(id, person);
     return data;
   }
@@ -42,4 +57,5 @@ export class PersonController {
 
     return data;
   }
+
 }
