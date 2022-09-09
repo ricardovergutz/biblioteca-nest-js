@@ -8,6 +8,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     username: 'pguser',
     password: 'pgpassword',
     database: 'pgbiblioteca',
-    entities: [__dirname + '/../**/*.entity.{js,ts}'],
+    entities: [__dirname + './../**/*.entity.{js,ts}'],
     synchronize: true,
 }
