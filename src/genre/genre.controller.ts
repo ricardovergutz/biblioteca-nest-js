@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import { ApiBody } from '@nestjs/swagger';
 import { GenreService } from './genre.service';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { UpdateGenreDto } from './dto/update-genre.dto';
@@ -17,6 +18,7 @@ export class GenreController {
   constructor(private readonly genreService: GenreService) {}
 
   @Post()
+  @ApiBody({ type: CreateGenreDto})
   create(@Body() createGenreDto: CreateGenreDto): Promise<Genre> {
     return this.genreService.create(createGenreDto);
   }

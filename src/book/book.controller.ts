@@ -3,12 +3,14 @@ import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
+import { ApiBody } from '@nestjs/swagger';
 
 @Controller('book')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Post()
+  @ApiBody({ type: CreateBookDto})
   async create(@Body() createBookDto: CreateBookDto): Promise<Book> {
     return await this.bookService.create(createBookDto);
   }

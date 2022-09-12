@@ -1,6 +1,12 @@
-import { IsString } from "class-validator";
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateBookDto {
-    @IsString()
-    name: string;
+  @ApiProperty()
+  @IsString()
+  @MaxLength(150)
+  @IsNotEmpty({
+    message: 'Informe o nome do livro',
+  })
+  name: string;
 }
