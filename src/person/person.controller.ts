@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
 import { EmployeeService } from './employee/employ.service';
 import { employeeDto } from './employee/employee.dto';
+import { employeeEntity } from './employee/employee.entity';
 import { PersonDto } from './person.dto';
 import { PersonService } from './person.service';
 
@@ -11,14 +12,23 @@ export class PersonController {
     ){}
 
     @Post('employee')
-    async createEmployee(@Body() data: employeeDto){
+    async employeeCreate(@Body() data: employeeDto){
       const user = await this.employeeService.create(data)
       return user
     }
-  
+
     @Get('employee')
-    async getEmployee(){
+    async getEmployee(): Promise<employeeEntity[]>{
       return await this.employeeService.getAll()
+    }
+
+    @Get('employee/:id')
+    async getOneEmployee(@Param('id') id:number){
+      const user = await this.employeeService.getOne(id)
+      if(!user){
+        throw new NotFoundException({message: 'largue mão de ser indiota :D'})
+      }
+      return user
     }
 
     @Get()

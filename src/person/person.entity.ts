@@ -1,7 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { employeeDto } from "./employee/employee.dto";
+import { employeeEntity } from "./employee/employee.entity";
 
 @Entity('person')
-export class PersonEntity{
+export class PersonEntity extends employeeDto{
   @PrimaryGeneratedColumn()
   id: number
 
@@ -10,4 +12,7 @@ export class PersonEntity{
 
   @Column()
   email: string
+
+  @OneToOne(() =>employeeEntity, (employee) => employee.person)
+  employee:employeeEntity
 }

@@ -1,6 +1,7 @@
-import { IsEmail, IsNotEmpty, IsString, MaxLength } from "class-validator";
+import { IsBoolean, IsEmail, IsNotEmpty, IsString, MaxLength } from "class-validator";
+import { employeeDto } from "./employee/employee.dto";
 
-export class PersonDto{
+export class PersonDto { 
   @IsString()
   @IsNotEmpty()
   @MaxLength(120)
@@ -10,4 +11,5 @@ export class PersonDto{
   @IsEmail()
   @IsNotEmpty()
   email:string
+
 }

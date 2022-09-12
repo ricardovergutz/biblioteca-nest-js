@@ -1,5 +1,7 @@
-import { IsNotEmpty, IsString, Matches, MaxLength, MinLength } from "class-validator"
-export class employeeDto {
+import {IsNotEmpty, IsNumber, IsString, Matches, MaxLength, MinLength } from "class-validator"
+import { PersonDto } from "../person.dto"
+
+export class employeeDto extends PersonDto {
 
     @IsString()
     @IsNotEmpty()

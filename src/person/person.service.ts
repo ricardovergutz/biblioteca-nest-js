@@ -6,8 +6,9 @@ import { PersonEntity } from './person.entity';
 
 @Injectable()
 export class PersonService {
-  constructor(@InjectRepository(PersonEntity) private personRepository: Repository <PersonEntity>){}
-
+  constructor(@InjectRepository(PersonEntity)
+              private personRepository: Repository <PersonEntity>){}
+  
   async showAll(){
     return await this.personRepository.find();
   }
@@ -22,8 +23,8 @@ export class PersonService {
   }
 
   async update(id: number, person:PersonDto){
-    const batata = await this.personRepository.findOne({where: {id: id}});
-    if(!batata){
+    const user = await this.personRepository.findOne({where: {id: id}});
+    if(!user){
       throw new NotFoundException();
     }
     await this.personRepository.update({id}, person);
