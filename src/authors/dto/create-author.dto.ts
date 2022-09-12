@@ -1,10 +1,14 @@
-import { IsNotEmpty, IsString} from "class-validator";
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
-export class CreateAuthorDto {
-    @IsNotEmpty()
-    id: Number
-
-    @IsNotEmpty()
-    @IsString()
-    name: string
+export class CreateAuthorDTO {
+  @IsString({
+    message: 'O título precisa ser em formato texto',
+  })
+  @MaxLength(150, {
+    message: 'Informe um autor até 150 caracteres',
+  })
+  @IsNotEmpty({
+    message: 'Informe um autor do livro',
+  })
+  name: string;
 }
