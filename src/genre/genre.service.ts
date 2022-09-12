@@ -15,7 +15,7 @@ export class GenreService {
     return await this.genreRepository.save(createGenreDto);
   }
 
-  async findAll() {
+  async findAll(): Promise<Genre[]> {
     return await this.genreRepository.find();
   }
 
