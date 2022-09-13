@@ -14,12 +14,11 @@ import { Author } from './entities/author.entity';
 
 @Controller('authors')
 export class AuthorsController {
-  AuthorsService: any;
   constructor(private readonly author: AuthorsService) {}
 
   @Post()
   async create(@Body() createAuthorDTO: CreateAuthorDTO) {
-    return await this.AuthorsService.create(createAuthorDTO);
+    return await this.author.createAuthor(createAuthorDTO);
   }
 
   @Get()
@@ -29,7 +28,7 @@ export class AuthorsController {
 
   @Get(':id')
   async findOneAuthorById(@Param('id') id: number) {
-    return await this.AuthorsService.findOne(+id);
+    return await this.author.findOneAuthorById(+id);
   }
 
   @Patch(':id')
