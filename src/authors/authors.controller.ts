@@ -14,31 +14,34 @@ import { Author } from './entities/author.entity';
 
 @Controller('authors')
 export class AuthorsController {
-    AuthorsService: any;
-    constructor(private readonly author: AuthorsService) {}
+  AuthorsService: any;
+  constructor(private readonly author: AuthorsService) {}
 
-    @Post()
-    create(@Body() createAuthorDTO:CreateAuthorDTO){
-      return this.AuthorsService.create(createAuthorDTO)
-    }
+  @Post()
+  async create(@Body() createAuthorDTO: CreateAuthorDTO) {
+    return await this.AuthorsService.create(createAuthorDTO);
+  }
 
-    @Get()
-    findAllAuthors(): Promise<Author[]>{
-      return this.author.findAllAuthors();
-    }
+  @Get()
+  async findAllAuthors(): Promise<Author[]> {
+    return await this.author.findAllAuthors();
+  }
 
-    @Get(':id')
-    findOneAuthorById(@Param('id') id: number) {
-      return this.AuthorsService.findOne(+id);
-    }
+  @Get(':id')
+  async findOneAuthorById(@Param('id') id: number) {
+    return await this.AuthorsService.findOne(+id);
+  }
 
-    @Patch(':id')
-    updateAuthor(@Param('id') id: number, @Body() updateAuthorDto:UpdateAuthorDto) {
-      return this.AuthorsService.update(+id, updateAuthorDto);
-    }
+  @Patch(':id')
+  async updateAuthor(
+    @Param('id') id: number,
+    @Body() updateAuthorDto: UpdateAuthorDto,
+  ) {
+    return await this.AuthorsService.update(+id, updateAuthorDto);
+  }
 
-    @Delete(':id')
-    remove(@Param('id') id: number) {
-      return this.AuthorsService.remove(+id);
-    }
+  @Delete(':id')
+  async remove(@Param('id') id: number) {
+    return await this.AuthorsService.remove(+id);
+  }
 }
