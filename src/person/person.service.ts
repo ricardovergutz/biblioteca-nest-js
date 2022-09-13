@@ -8,34 +8,34 @@ import { EmployeeService } from './employee/employ.service';
 @Injectable()
 export class PersonService {
   constructor(@InjectRepository(PersonEntity)
-              private personRepository: Repository <PersonEntity>,               
-              private employeeService: EmployeeService){}
-  
-  async showAll(){
+  private personRepository: Repository<PersonEntity>,
+    private employeeService: EmployeeService) { }
+
+  async showAll() {
     return await this.personRepository.find();
   }
 
-  async findOne(id:number, employee:boolean=false){
-    const user = await this.personRepository.findOne({where: {id}, relations: { employee: employee,  }, });
-    if(!user){
+  async findOne(id: number, employee: boolean = false) {
+    const user = await this.personRepository.findOne({ where: { id }, relations: { employee: employee, }, });
+    if (!user) {
       throw new NotFoundException();
     }
     return user;
   }
 
-  async createPerson(person: PersonDto): Promise<PersonEntity>{
+  async createPerson(person: PersonDto): Promise<PersonEntity> {
     const data = await this.personRepository.save(person);
     return data;
   }
 
-  async update(id: number, person:PersonDto){
+  async update(id: number, person: PersonDto) {
     await this.personRepository.update(id, person);
     return await this.findOne(id);
   }
 
-  async destroy(id:number){
+  async destroy(id: number) {
     const person = await this.findOne(id, true);
-    if (person.employee){
+    if (person.employee) {
       await this.employeeService.destroy(person.employee.id);
     }
     await this.personRepository.delete(id);
