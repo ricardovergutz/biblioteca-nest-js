@@ -43,7 +43,7 @@ export class AuthorsService {
     return updateAuthorDto;
   }
 
-  async deleteAuthor(id: number): Promise<void> {
+  async deleteAuthor(id: number) {
     const deleteAuthor = await this.authorRepository.delete(id);
   }
 }
