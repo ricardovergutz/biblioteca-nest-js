@@ -36,11 +36,11 @@ export class AuthorsController {
     @Param('id') id: number,
     @Body() updateAuthorDto: UpdateAuthorDto,
   ) {
-    return await this.AuthorsService.update(+id, updateAuthorDto);
+    return await this.author.updateAuthor(+id, updateAuthorDto);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: number) {
-    return await this.AuthorsService.remove(+id);
+    return await this.author.deleteAuthor(+id);
   }
 }
