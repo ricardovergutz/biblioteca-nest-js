@@ -14,3 +14,10 @@ export class books_authors_service {
     private bookRepository: Repository<Book>,
   ) {}
 }
+
+/* 
+  async findAll(): Promise <[Book]> {
+    const books = await this.bookRepository.find({ 
+    });
+      return books;
+  } */
