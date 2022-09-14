@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { PersonEntity } from '../person.entity';
 import { employeeDto } from './employee.dto';
 import { employeeEntity } from './employee.entity';
+import { UpdateEmployeeDTO } from './employee.update.dto';
 
 @Injectable()
 export class EmployeeService {
@@ -20,7 +21,9 @@ export class EmployeeService {
         } )
     }
     async getOne(id: number){
-        return await this.employeeRepository.findOne({where: {id: id}})
+        return await this.employeeRepository.findOne({where: {id: id}, select: {
+            password: true
+        }})
     }
 
     async create(data: employeeDto): Promise<Partial<employeeEntity>>{
@@ -34,14 +37,15 @@ export class EmployeeService {
         return data
       }
 
-    async update (id: number, data: employeeDto){
-        const employee = await this.employeeRepository.findOne({where: {id: id}, relations: {person: true}})
+    async update (id: number, data: UpdateEmployeeDTO){
+        await this.getOne(id)
+        await this.employeeRepository.update(id, data)
+        return data
         
-        return true
     }
     
     async destroy (id: number){
-        await this.employeeRepository.findOne({where: {id: id}})
+        await this.getOne(id)
         await this.employeeRepository.delete({id})
         return true
     }
