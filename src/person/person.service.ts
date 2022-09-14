@@ -9,10 +9,12 @@ import { EmployeeService } from './employee/employ.service';
 export class PersonService {
   constructor(@InjectRepository(PersonEntity)
   private personRepository: Repository<PersonEntity>,
-    private employeeService: EmployeeService) { }
+    private employeeService: EmployeeService) {}
 
   async showAll() {
-    return await this.personRepository.find();
+    return await this.personRepository.find({relations: {
+      employee: true
+    }});
   }
 
   async findOne(id: number, employee: boolean = false) {

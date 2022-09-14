@@ -43,7 +43,7 @@ export class EmployeeService {
     }
     
     async destroy (id: number){
-        const data = await this.employeeRepository.findOne({where: {id: id}})
+        await this.employeeRepository.findOne({where: {id: id}})
         await this.employeeRepository.delete({id})
         return true
     }
