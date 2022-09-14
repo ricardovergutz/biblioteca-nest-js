@@ -32,7 +32,7 @@ export class EmployeeService {
         let employee = new employeeEntity();
         employee.password = data.password;
         employee.person = person;
-
+        
         await this.employeeRepository.save(employee);
         return data
       }
@@ -40,7 +40,7 @@ export class EmployeeService {
     async update (id: number, data: UpdateEmployeeDTO){
         await this.getOne(id)
         await this.employeeRepository.update(id, data)
-        return data
+        return true
         
     }
     

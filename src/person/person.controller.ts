@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiHideProperty, ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { EmployeeService } from './employee/employ.service';
 import { employeeDto } from './employee/employee.dto';
 import { employeeEntity } from './employee/employee.entity';
@@ -13,6 +13,7 @@ export class PersonController {
     ){}
 
     @ApiTags('employee')
+    @HttpCode(201)
     @Post('employee')
     async employeeCreate(@Body() data: employeeDto){
       const user = await this.employeeService.create(data)
@@ -35,7 +36,7 @@ export class PersonController {
     async getOneEmployee(@Param('id') id:number){
       const user = await this.employeeService.getOne(id)
       if(!user){
-        throw new NotFoundException({message: 'largue mão de ser indiota :D'})
+        throw new NotFoundException({message: 'id não encontrado :D'})
       }
       return user
     }
@@ -45,7 +46,7 @@ export class PersonController {
     async deleteEmployee(@Param('id') id: number){
       const user = await this.employeeService.destroy(id)
       if(!user){
-        throw new NotFoundException({message: 'id não encontrado'})
+        throw new NotFoundException({message: 'id não encontrado :D'})
       }
       return user
     }
@@ -54,6 +55,9 @@ export class PersonController {
     @Put('employee/:id')
     async UpdateEmployee(@Param('id') id: number, @Body() data: employeeDto){
       const user = await this.employeeService.update(id, data)
+      if(!user){
+        throw new NotFoundException({message: 'id não encontrado :D'})
+      }
       return user
     }
 
@@ -70,7 +74,7 @@ export class PersonController {
   async showOnePerson(@Param('id') id:number){
     const data = await this.personService.findOne(id, true);
     if(!data){
-      throw new NotFoundException();
+      throw new NotFoundException({message: 'id não encontrado :D'});
     }
     return data;
   }
@@ -86,6 +90,9 @@ export class PersonController {
   @Put(':id')
   async update(@Param('id') id:number, @Body() person:PersonDto){
     const data = await this.personService.update(id, person);
+    if(!data){
+      throw new NotFoundException({message: 'id não encontrado :D'})
+    }
     return data;
   }
 
@@ -95,7 +102,7 @@ export class PersonController {
   async PersonDelete(@Param('id') id:number){
     const data = await this.personService.destroy(id);
     if (!data){
-      throw new NotFoundException();
+      throw new NotFoundException({message: 'id não encontrado :D'});
     }
 
     return data;

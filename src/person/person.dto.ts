@@ -4,14 +4,20 @@ import { employeeDto } from "./employee/employee.dto";
 
 export class PersonDto {
   @ApiProperty({example: "José Maria de Mattos Netto"})
-  @IsString()
-  @IsNotEmpty()
+  @IsString({
+    message: 'Apenas letras'
+  })
+  @IsNotEmpty({
+    message: 'Nome obrigatorio'
+  })
   @MaxLength(120)
   name: string
 
   @ApiProperty({example: "exemplo@exemplo.com"})
   @IsString()
-  @IsEmail()
+  @IsEmail({
+    message: 'email invalido'
+  })
   @IsNotEmpty()
   email:string
 
