@@ -1,4 +1,3 @@
-import { IsNotEmpty } from "class-validator";
 import { Genre } from "src/genre/entities/genre.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -11,8 +10,9 @@ export class Book {
     name: string;
 
     @Column()
-    genreId: number;
-    @ManyToOne(() => Genre, (genre) => genre.id)
+    url: string;
+
+    @ManyToOne(() => Genre, (genre) => genre.books)
     @JoinColumn({name: 'genreId'})
     genre: Genre;
 }

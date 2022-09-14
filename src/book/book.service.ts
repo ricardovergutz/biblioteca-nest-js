@@ -16,7 +16,7 @@ export class BookService {
   }
 
   async findAll() {
-    return await this.bookRepository.find();
+    return await this.bookRepository.find({relations: {genre: true}});
   }
 
   async findOne(id: number) {

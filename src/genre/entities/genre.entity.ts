@@ -10,5 +10,5 @@ export class Genre {
   name: string;
 
   @OneToMany(() => Book, (book) => book.genre)
-  book: Book;
+  books: Book[];
 }

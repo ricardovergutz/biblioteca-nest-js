@@ -9,4 +9,10 @@ export class CreateBookDto {
     message: 'Informe o nome do livro',
   })
   name: string;
+  
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  url: string;
 }
