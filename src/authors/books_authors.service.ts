@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { Author } from './entities/author.entity';
 
 @Injectable()
-export class books_authorsService {
+export class books_authors_service {
   constructor(
     @InjectRepository(Author)
     private authorRepository: Repository<Author>,

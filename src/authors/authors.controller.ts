@@ -7,11 +7,13 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { AuthorsService } from './authors.service';
 import { CreateAuthorDTO } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { Author } from './entities/author.entity';
 
+@ApiTags('authors')
 @Controller('authors')
 export class AuthorsController {
   constructor(private readonly author: AuthorsService) {}

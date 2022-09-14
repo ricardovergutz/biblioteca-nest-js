@@ -13,7 +13,7 @@ export class AuthorsService {
   ) {}
 
   async findAllAuthors(): Promise<Author[]> {
-    const authors = await this.authorRepository.find();
+    const authors = await this.authorRepository.find({relations:  {books: true}});
     return authors;
   }
 

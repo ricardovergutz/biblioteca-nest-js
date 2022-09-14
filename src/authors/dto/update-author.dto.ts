@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class UpdateAuthorDto {
+
   @IsString({
     message: 'O título precisa ser em formato texto',
   })

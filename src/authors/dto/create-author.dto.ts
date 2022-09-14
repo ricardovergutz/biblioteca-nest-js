@@ -1,6 +1,12 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class CreateAuthorDTO {
+  @ApiProperty({
+    description: 'O nome do autor é exibido aqui',
+    example: 'J.R.R. Tolkien',
+    type: "string",
+  })
   @IsString({
     message: 'O título precisa ser em formato texto',
   })
