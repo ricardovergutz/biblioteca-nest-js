@@ -8,7 +8,7 @@ export class employeeEntity extends PersonDto {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({ select: false })
     password: string
 
     @OneToOne(() => PersonEntity, (person) => person.employee)

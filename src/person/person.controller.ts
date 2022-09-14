@@ -14,12 +14,17 @@ export class PersonController {
     @Post('employee')
     async employeeCreate(@Body() data: employeeDto){
       const user = await this.employeeService.create(data)
-      return user
+      return {
+        "personId":user.id,
+        "name":user.name,
+        "email":user.email,
+      }
     }
 
     @Get('employee')
-    async getEmployee(): Promise<employeeEntity[]>{
-      return await this.employeeService.getAll()
+    async getEmployee(){
+      const user = await this.employeeService.getAll()
+      return user
     }
 
     @Get('employee/:id')
@@ -28,6 +33,19 @@ export class PersonController {
       if(!user){
         throw new NotFoundException({message: 'largue mão de ser indiota :D'})
       }
+      return user
+    }
+    @Delete('employee/:id')
+    async deleteEmployee(@Param('id') id: number){
+      const user = await this.employeeService.destroy(id)
+      if(!user){
+        throw new NotFoundException({message: 'id não encontrado'})
+      }
+      return user
+    }
+    @Put('employee/:id')
+    async UpdateEmployee(@Param('id') id: number, @Body() data: employeeDto){
+      const user = await this.employeeService.update(id, data)
       return user
     }
 
@@ -39,7 +57,7 @@ export class PersonController {
 
   @Get(':id')
   async showOnePerson(@Param('id') id:number){
-    const data = await this.personService.findOne(id);
+    const data = await this.personService.findOne(id, true);
     if(!data){
       throw new NotFoundException();
     }

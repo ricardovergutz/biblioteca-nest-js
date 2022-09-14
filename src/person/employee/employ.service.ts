@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { deepStrictEqual } from 'assert';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { PersonEntity } from '../person.entity';
 import { employeeDto } from './employee.dto';
 import { employeeEntity } from './employee.entity';
@@ -13,8 +13,13 @@ export class EmployeeService {
         @InjectRepository(PersonEntity) private personRepository: Repository<PersonEntity>
     ){}
 
-    async getAll(){
-        return await this.employeeRepository.find()
+    async getAll(): Promise<Partial<employeeEntity[]>>{
+        return await this.employeeRepository.find({
+            relations: {
+                person: true
+            }
+        } )
+
     }
 
     async getOne(id: number){
@@ -29,17 +34,18 @@ export class EmployeeService {
         employee.person = person;
 
         await this.employeeRepository.save(employee);
-        return employee
+        return data
       }
 
     async update (id: number, data: employeeDto){
-        await this.employeeRepository.findOne({where: {id: id}})
-        await this.employeeRepository.update({id}, data)
-        return data
+        const employee = await this.employeeRepository.findOne({where: {id: id}, relations: {person: true}})
+        
+        return true
     }
+    
     async destroy (id: number){
         const data = await this.employeeRepository.findOne({where: {id: id}})
         await this.employeeRepository.delete({id})
-        return data
+        return true
     }
 }
