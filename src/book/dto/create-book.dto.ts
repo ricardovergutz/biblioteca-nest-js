@@ -1,7 +1,8 @@
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { Genre } from 'src/genre/entities/genre.entity';
 
-export class CreateBookDto {
+export class CreateBookDto{
   @ApiProperty()
   @IsString()
   @MaxLength(150)
@@ -15,4 +16,9 @@ export class CreateBookDto {
   @IsString()
   @IsNotEmpty()
   url: string;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsNotEmpty()
+  genreId: number;
 }

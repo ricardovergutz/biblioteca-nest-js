@@ -5,6 +5,7 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
 
+
 @Injectable()
 export class BookService {
   constructor(
@@ -12,6 +13,11 @@ export class BookService {
   ){}
 
   async create(createBookDto: CreateBookDto): Promise<Book> {
+    const book = new Book();
+    book.name = createBookDto.name;
+    book.url = createBookDto.url;
+    book.genre = createBookDto.genreId;
+    
     return await this.bookRepository.save(createBookDto);
   }
 
