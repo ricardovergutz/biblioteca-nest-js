@@ -18,9 +18,7 @@ export class EmployeeService {
                 person: true
             }
         } )
-
     }
-
     async getOne(id: number){
         return await this.employeeRepository.findOne({where: {id: id}})
     }
