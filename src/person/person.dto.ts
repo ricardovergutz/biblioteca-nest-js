@@ -9,6 +9,7 @@ export class PersonDto {
   @MaxLength(120)
   name: string
 
+  @ApiProperty()
   @IsString()
   @IsEmail()
   @IsNotEmpty()

@@ -11,6 +11,8 @@ async function bootstrap() {
     .setDescription(`Biblioteca`)
     .setVersion(`1.0`)
     .addTag(`app`)
+    .addTag('person')
+    .addTag('employee')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup(`api`, app, document);
