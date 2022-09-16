@@ -18,7 +18,7 @@ export class PersonController {
 
     @Put('change/:id')
     async changePerson(@Param('id') id: number, @Body() data: UpdatePersonDTO){
-      const user = await this.personService.changePerson(id,data)
+      const user = await this.employeeService.changePerson(id, data)
       return user
     }
 

@@ -14,7 +14,10 @@ export class employeeEntity {
     password: string
 
     @ApiProperty()
+    @Column({select:false})
+    personId?: number
+
     @OneToOne(() => PersonEntity, (person) => person.employee)
-    @JoinColumn({name: 'personid'})
+    @JoinColumn()
     person: PersonEntity
 }
