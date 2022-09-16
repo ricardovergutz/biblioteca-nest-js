@@ -13,7 +13,10 @@ export class Book{
     @Column()
     url: string;
 
+    @Column()
+    genreId?: number;
+
     @ManyToOne(() => Genre, (genre) => genre.books)
-    @JoinColumn({name: 'genreId'})
+    @JoinColumn()
     genre: Genre;
 }

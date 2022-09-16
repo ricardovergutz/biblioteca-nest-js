@@ -13,11 +13,6 @@ export class BookService {
   ){}
 
   async create(createBookDto: CreateBookDto): Promise<Book> {
-    const book = new Book();
-    book.name = createBookDto.name;
-    book.url = createBookDto.url;
-    book.genre = createBookDto.genreId;
-    
     return await this.bookRepository.save(createBookDto);
   }
 
