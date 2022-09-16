@@ -5,7 +5,7 @@ import { PersonEntity } from "../person.entity";
 
 
 @Entity('employee')
-export class employeeEntity extends PartialType(PersonDto) {
+export class employeeEntity {
     @PrimaryGeneratedColumn()
     id: number
 
@@ -15,6 +15,4 @@ export class employeeEntity extends PartialType(PersonDto) {
     @OneToOne(() => PersonEntity, (person) => person.employee)
     @JoinColumn({name: 'personid'})
     person: PersonEntity
-
-
 }

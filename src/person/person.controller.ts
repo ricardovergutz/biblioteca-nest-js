@@ -5,6 +5,7 @@ import { employeeDto } from './employee/employee.dto';
 import { employeeEntity } from './employee/employee.entity';
 import { PersonDto } from './person.dto';
 import { PersonService } from './person.service';
+import { UpdatePersonDTO } from './updatePerson.dto';
 
 @Controller('person')
 export class PersonController {
@@ -12,16 +13,18 @@ export class PersonController {
               private employeeService: EmployeeService
     ){}
 
+    @Put('change/:id')
+    async changePerson(@Param('id') id: number, @Body() data: UpdatePersonDTO){
+      const user = await this.personService.changePerson(id,data)
+      return user
+    }
+
     @ApiTags('employee')
     @HttpCode(201)
     @Post('employee')
     async employeeCreate(@Body() data: employeeDto){
       const user = await this.employeeService.create(data)
-      return {
-        "personId":user.id,
-        "name":user.name,
-        "email":user.email,
-      }
+      return user
     }
     @ApiTags('employee')
     @HttpCode(200)

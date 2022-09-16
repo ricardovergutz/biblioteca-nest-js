@@ -32,9 +32,14 @@ export class EmployeeService {
         let employee = new employeeEntity();
         employee.password = data.password;
         employee.person = person;
+
+        
         
         await this.employeeRepository.save(employee);
-        return data
+        return {
+            ...data,
+            password: undefined
+        }
       }
 
     async update (id: number, data: UpdateEmployeeDTO){
@@ -45,8 +50,8 @@ export class EmployeeService {
     }
     
     async destroy (id: number){
-        await this.getOne(id)
-        await this.employeeRepository.delete({id})
-        return true
+        const user = await this.employeeRepository.findOne({where: {id: id}})
+        await this.employeeRepository.delete(id)
+        return user
     }
 }
