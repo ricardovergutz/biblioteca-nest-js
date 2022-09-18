@@ -21,12 +21,12 @@ export class BookService {
   }
 
   async findOne(id: number) {
-    return await this.bookRepository.findOne({where: {id:id}});
+    return await this.bookRepository.findOneOrFail({where: {id:id}});
   }
 
   async update(id: number, updateBookDto: UpdateBookDto) {
-    await this.bookRepository.update({id}, updateBookDto);
-    return await this.bookRepository.findOne({where: {id:id}});
+    await this.bookRepository.update({ id }, updateBookDto);
+    return await this.bookRepository.findOne({ where: { id: id } });
   }
 
   async remove(id: number) {
