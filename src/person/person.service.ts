@@ -17,12 +17,12 @@ export class PersonService {
     }});
   }
 
-  async findOne(id: number, employee: boolean = false) {
-    const user = await this.personRepository.findOne({ where: { id }, relations: { employee: employee, }, });
-    if (!user) {
+  async findOne(id: number, employee = false) {
+    try {
+      return await this.personRepository.findOneOrFail({ where: { id }, relations: { employee: employee, }, });
+    } catch (e) {
       throw new NotFoundException();
     }
-    return user;
   }
 
   async createPerson(person: PersonDto): Promise<PersonEntity> {

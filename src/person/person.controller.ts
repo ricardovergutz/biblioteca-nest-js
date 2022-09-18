@@ -16,6 +16,7 @@ export class PersonController {
               private employeeService: EmployeeService
     ){}
 
+    @ApiTags('employee')
     @Put('change/:id')
     async changePerson(@Param('id') id: number, @Body() data: UpdatePersonDTO){
       const user = await this.employeeService.changePerson(id, data)
@@ -52,7 +53,7 @@ export class PersonController {
       if(!user){
         throw new NotFoundException({message: 'id não encontrado :D'})
       }
-      return user
+    return user;
     }
     @ApiTags('employee')
     @HttpCode(204)
@@ -85,12 +86,10 @@ export class PersonController {
   @ApiTags('person')
   @HttpCode(200)
   @Get(':id')
-  async showOnePerson(@Param('id') id:number){
+  async showOnePerson(@Param('id') id: number) {
     const data = await this.personService.findOne(id, true);
-    if(!data){
-      throw new NotFoundException({message: 'id não encontrado :D'});
-    }
-    return data;
+
+    return data.toJSON();
   }
   @ApiTags('person')
   @HttpCode(201)
@@ -102,7 +101,7 @@ export class PersonController {
   @ApiTags('person')
   @HttpCode(200)
   @Put(':id')
-  async update(@Param('id') id:number, @Body() person:PersonDto){
+  async update(@Param('id') id: number, @Body() person: PersonDto) {
     const data = await this.personService.update(id, person);
     if(!data){
       throw new NotFoundException({message: 'id não encontrado :D'})
@@ -121,5 +120,4 @@ export class PersonController {
 
     return data;
   }
-
 }
