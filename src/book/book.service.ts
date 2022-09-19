@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateBookDto } from './dto/create-book.dto';
@@ -13,7 +13,11 @@ export class BookService {
   ){}
 
   async create(createBookDto: CreateBookDto): Promise<Book> {
+    try{
     return await this.bookRepository.save(createBookDto);
+  } catch(err) {
+    throw new ConflictException({message: "url  já existente"});
+  }
   }
 
   async findAll() {
@@ -21,12 +25,20 @@ export class BookService {
   }
 
   async findOne(id: number) {
-    return await this.bookRepository.findOneOrFail({where: {id:id}});
+    try{
+      return await this.bookRepository.findOneOrFail({where: {id}});
+    }catch(err){
+      throw new NotFoundException();       
+    }
   }
 
   async update(id: number, updateBookDto: UpdateBookDto) {
+    try{
     await this.bookRepository.update({ id }, updateBookDto);
     return await this.bookRepository.findOne({ where: { id: id } });
+    } catch(err){
+      throw new ConflictException({message: "url já existente"});
+    }
   }
 
   async remove(id: number) {

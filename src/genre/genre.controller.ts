@@ -35,9 +35,8 @@ export class GenreController {
   @Get(':id')
   async findOne(@Param('id') id: number){
     const genre = await this.genreService.findOne(id);
-    console.log(genre)
     if(!genre){
-      throw new NotFoundException({message: 'id não encontrado'})
+      throw new NotFoundException({message: 'id não encontrado'});
     }
   }
 

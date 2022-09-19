@@ -10,7 +10,7 @@ export class Book{
     @Column()
     name: string;
 
-    @Column()
+    @Column({unique: true})
     url: string;
 
     @Column()

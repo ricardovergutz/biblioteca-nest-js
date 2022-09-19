@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, NotFoundException } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
@@ -18,25 +18,37 @@ export class BookController {
 
   @HttpCode(200)
   @Get()
-  findAll() {
-    return this.bookService.findAll();
+  async findAll() {
+    return await this.bookService.findAll();
   }
 
   @HttpCode(200)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bookService.findOne(+id);
+  async findOne(@Param('id') id: number) {
+    const book = await this.bookService.findOne(id);
+    if(!book){
+      throw new NotFoundException({message: 'id não encontrado'});
+    }
+    return book;
   }
 
   @HttpCode(200)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.bookService.update(+id, updateBookDto);
+  async update(@Param('id') id: number, @Body() updateBookDto: UpdateBookDto) {
+    const data = await this.bookService.update(id, updateBookDto);
+    if(!data){
+      throw new NotFoundException({message: 'Id não encontrado'});
+    }
+    return data;
   }
 
   @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.bookService.remove(+id);
+  async remove(@Param('id') id: number) {
+    const data = await this.bookService.remove(id);
+    if(!data){
+      throw new NotFoundException({message: 'Id não encontrado'});
+    }
+    return data;
   }
 }
