@@ -11,7 +11,7 @@ export class PersonEntity extends employeeDto{
   @Column()
   name: string
 
-  @Column()
+  @Column({unique: true})
   email: string
 
   @Generated()

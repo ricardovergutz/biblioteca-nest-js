@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PersonDto } from './person.dto';
@@ -26,8 +26,13 @@ export class PersonService {
   }
 
   async createPerson(person: PersonDto): Promise<PersonEntity> {
+    try{
     const data = await this.personRepository.save(person);
     return data;
+    }catch(e){
+      throw new ConflictException()
+    }
+    
   }
 
   async update(id: number, person: PersonDto) {

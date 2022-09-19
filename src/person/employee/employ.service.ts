@@ -1,4 +1,4 @@
-import { Injectable, NotAcceptableException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { ConflictException, Injectable, NotAcceptableException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PersonEntity } from '../person.entity';
@@ -31,16 +31,20 @@ export class EmployeeService {
     }
 
     async create(data: employeeDto): Promise<PersonEntity>{
+        try{
         const person = await this.personRepository.save(data)
 
-        
         let employee = new employeeEntity();
         employee.password = await bcrypt.hash(data.password, 10);
         employee.person = person;
 
         await this.employeeRepository.save(employee)
-
-        return this.personRepository.findOneOrFail({ where : { id: employee.personId } });
+        
+            return this.personRepository.findOneOrFail({ where : { id: employee.personId } });
+        }catch(e){
+            throw new ConflictException()
+        }
+        
       }
 
     async update (id: number, data: UpdateEmployeeDTO){
