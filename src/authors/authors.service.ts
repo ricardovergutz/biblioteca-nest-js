@@ -1,6 +1,5 @@
-import { ConsoleLogger, Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { async } from 'rxjs';
 import { BookService } from 'src/book/book.service';
 import { Repository } from 'typeorm';
 import { CreateAuthorBooksDTO } from './dto/create-author-books.dto';
@@ -30,26 +29,34 @@ export class AuthorsService {
         relations: { books: _books },
       });
     } catch (err) {
-      throw new NotFoundException();
+      throw new NotFoundException({message: "Não foi possível encontrador o autor requisitado"});
     }
   }
 
-  async createAuthor(createAuthorDto: CreateAuthorDTO): Promise<Author> {
+  async createAuthor(createAuthorDto: CreateAuthorDTO, id?: number): Promise<Author> {
+    try {
+      // await this.findOneAuthorById(id); corrigir para puxar o id
     return await this.authorRepository.save(createAuthorDto);
+    } catch(err) {
+      throw new ConflictException({message: `Autor já existente id: ${id}`});
+    }
   }
 
   async updateAuthor(id: number, updateAuthorDto: UpdateAuthorDto) {
+    
+    try{
     await this.findOneAuthorById(id);
-
     await this.authorRepository.update({ id }, updateAuthorDto);
-
     return updateAuthorDto;
+    } catch (err) {
+      throw new ConflictException({message: `Autor já existente id: ${id}`});
+    }
   }
 
   async deleteAuthor(id: number) {
     await this.findOneAuthorById(id);
     try {
-      let result = await this.authorRepository.delete(id+100);
+      let result = await this.authorRepository.delete(id);
       if (result.affected===1){
         return true;
       }else{

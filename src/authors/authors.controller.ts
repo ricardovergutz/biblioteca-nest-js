@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  NotAcceptableException,
   Param,
   Patch,
   Post,
@@ -76,6 +77,9 @@ export class AuthorsController {
   @Delete(':id')
   @HttpCode(204)
   async remove(@Param('id') id: number) {
-    return await this.author.deleteAuthor(+id);
+    const author = await this.author.deleteAuthor(id);
+    if(!author){
+      throw new NotAcceptableException()
+    }
   }
 }
