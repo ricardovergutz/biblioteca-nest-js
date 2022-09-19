@@ -47,6 +47,7 @@ export class PersonController {
       },
     })
     @ApiNotFoundResponse({status: 404, description: "Not found"})
+    @ApiResponse({status: 200, description: 'Busca apenas 1 funcionario.'})
     @Get('employee/:id')
     async getOneEmployee(@Param('id') id:number){
       const user = await this.employeeService.getOne(id)
@@ -56,7 +57,7 @@ export class PersonController {
     return user;
     }
     @ApiTags('employee')
-    @HttpCode(204)
+    @ApiResponse({status: 204, description: 'Deleta um funcionario'})
     @Delete('employee/:id')
     async deleteEmployee(@Param('id') id: number){
       const user = await this.employeeService.destroy(id)
@@ -77,14 +78,15 @@ export class PersonController {
     }
 
   @ApiTags('person')
-  @HttpCode(200)
+  @ApiResponse({status: 200, description: 'Busca todos os funcionarios.'})
   @Get()
   async showAllPerson(){
     const data = this.personService.showAll();
     return data;
   }
   @ApiTags('person')
-  @HttpCode(200)
+  @ApiNotFoundResponse({status: 404, description: "Not found"})
+  @ApiResponse({status: 200, description: 'Busca apenas 1 pessoa.'})
   @Get(':id')
   async showOnePerson(@Param('id') id: number) {
     const data = await this.personService.findOne(id, true);
@@ -92,14 +94,14 @@ export class PersonController {
     return data.toJSON();
   }
   @ApiTags('person')
-  @HttpCode(201)
+  @ApiCreatedResponse({status: 201, description: 'Cria uma pessoa.'})
   @Post()
   async create(@Body() person: PersonDto){
     const data = await this.personService.createPerson(person);
     return data;
   }
   @ApiTags('person')
-  @HttpCode(200)
+  @ApiResponse({status: 200, description: 'Atualiza o nome ou email da pessoa.'})
   @Put(':id')
   async update(@Param('id') id: number, @Body() person: PersonDto) {
     const data = await this.personService.update(id, person);
@@ -110,7 +112,7 @@ export class PersonController {
   }
 
   @ApiTags('person')
-  @HttpCode(204)
+  @ApiResponse({status: 204, description: 'Deleta uma pessoa'})
   @Delete(':id')
   async PersonDelete(@Param('id') id:number){
     const data = await this.personService.destroy(id);
