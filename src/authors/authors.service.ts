@@ -1,4 +1,4 @@
-import { ConsoleLogger, Injectable, NotFoundException } from '@nestjs/common';
+import { ConsoleLogger, Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { async } from 'rxjs';
 import { BookService } from 'src/book/book.service';
@@ -48,17 +48,23 @@ export class AuthorsService {
 
   async deleteAuthor(id: number) {
     await this.findOneAuthorById(id);
-    await this.authorRepository.delete(id);
+    try {
+      let result = await this.authorRepository.delete(id+100);
+      if (result.affected===1){
+        return true;
+      }else{
+        throw new NotAcceptableException();
+      }
+    } catch (e){
+      throw new NotAcceptableException();
+    }
   }
 
   async createAuthorBooks(
     id: number,
     createAuthorBooksDTO: CreateAuthorBooksDTO,
   ): Promise<Author|null> {
-    const author = await this.authorRepository.findOneOrFail({
-      where: { id: id },
-      relations: { books: true },
-    });
+    const author = await this.findOneAuthorById(id, true);
 
     await Promise.all(
       createAuthorBooksDTO.booksId.map(async (newBookId) => {
