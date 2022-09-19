@@ -5,7 +5,9 @@ import { CreateBookDto } from './create-book.dto';
 
 export class UpdateBookDto extends PartialType(CreateBookDto) {
   @ApiProperty()
-  @IsString()
+  @IsString({
+    message: 'Informe uma string',
+  })
   @MaxLength(150)
   @IsNotEmpty({
     message: 'Informe o nome do livro',
@@ -14,12 +16,18 @@ export class UpdateBookDto extends PartialType(CreateBookDto) {
   
 
   @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
+  @IsString({
+    message: 'Informe uma string',
+  })
+  @IsNotEmpty({
+    message: 'Informe o url do livro',
+  })
   url: string;
 
   @ApiProperty()
   @IsNumber()
-  @IsNotEmpty()
+  @IsNotEmpty({
+    message: 'informe um Id de genero',
+  })
   genreId: number;
 }
