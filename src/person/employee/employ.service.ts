@@ -24,34 +24,29 @@ export class EmployeeService {
     }
     async getOne(id: number){
         return await this.employeeRepository.findOne({where: {id: id},
-            select: {
-              password: true,
-        }
+            relations:{
+                person: true
+            }
         })
     }
 
-    async create(data: employeeDto): Promise<Partial<employeeEntity>>{
+    async create(data: employeeDto): Promise<PersonEntity>{
         const person = await this.personRepository.save(data)
+
         
         let employee = new employeeEntity();
-        employee.password = data.password;
+        employee.password = await bcrypt.hash(data.password, 10);
         employee.person = person;
 
-        const pass  = {
-            ...data,
-            password: await bcrypt.hash(data.password, 10)
-        }
         await this.employeeRepository.save(employee)
-        return {
-            ...pass,
-            password: undefined
-        }
+
+        return this.personRepository.findOneOrFail({ where : { id: employee.personId } });
       }
 
     async update (id: number, data: UpdateEmployeeDTO){
-        await this.getOne(id)
+        const employee = await this.getOne(id)
         await this.employeeRepository.update(id, data)
-        return true
+        return employee
     }
     
     async destroy (id: number){
@@ -73,5 +68,4 @@ export class EmployeeService {
     
         return ( await this.employeeRepository.save(employee) )
       }
-
 }
