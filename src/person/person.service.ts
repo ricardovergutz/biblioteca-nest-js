@@ -43,5 +43,4 @@ export class PersonService {
     await this.personRepository.delete(id);
     return true;
   }
-
 }

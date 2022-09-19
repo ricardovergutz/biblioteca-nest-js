@@ -6,6 +6,7 @@ import { UpdatePersonDTO } from '../updatePerson.dto';
 import { employeeDto } from './employee.dto';
 import { employeeEntity } from './employee.entity';
 import { UpdateEmployeeDTO } from './employee.update.dto';
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class EmployeeService {
@@ -22,9 +23,11 @@ export class EmployeeService {
         } )
     }
     async getOne(id: number){
-        return await this.employeeRepository.findOne({where: {id: id}, select: {
-            password: true
-        }})
+        return await this.employeeRepository.findOne({where: {id: id},
+            select: {
+              password: true,
+        }
+        })
     }
 
     async create(data: employeeDto): Promise<Partial<employeeEntity>>{
@@ -33,10 +36,14 @@ export class EmployeeService {
         let employee = new employeeEntity();
         employee.password = data.password;
         employee.person = person;
-        
-        await this.employeeRepository.save(employee);
-        return {
+
+        const pass  = {
             ...data,
+            password: await bcrypt.hash(data.password, 10)
+        }
+        await this.employeeRepository.save(employee)
+        return {
+            ...pass,
             password: undefined
         }
       }
@@ -66,4 +73,5 @@ export class EmployeeService {
     
         return ( await this.employeeRepository.save(employee) )
       }
+
 }
