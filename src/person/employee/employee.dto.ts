@@ -22,8 +22,4 @@ export class employeeDto extends PartialType(PersonDto) {
     })
     password: string
     
-    async checkPassword(password: string):Promise<boolean>{
-        const hash = await bcrypt.hash(password, 10)
-        return hash === this.password
-    }
 }

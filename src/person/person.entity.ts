@@ -1,5 +1,5 @@
 import { Expose } from "class-transformer";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Generated, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { employeeDto } from "./employee/employee.dto";
 import { employeeEntity } from "./employee/employee.entity";
 
@@ -14,11 +14,19 @@ export class PersonEntity extends employeeDto{
   @Column()
   email: string
 
+  @Generated()
+  isEmployee: boolean
+
   @OneToOne(() =>employeeEntity, (employee) => employee.person)
-  employee:employeeEntity
+  employee: employeeEntity
 
   @Expose()
-  get isEmployee() {
-    return (this.employee!==null);
+  public get checkEmployee() {
+    return this.employee !== null;
+  }
+
+  toJSON() {
+    this.isEmployee = this.checkEmployee;
+    return this;
   }
 }
