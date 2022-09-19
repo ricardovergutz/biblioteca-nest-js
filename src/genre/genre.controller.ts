@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   HttpCode,
+  NotFoundException,
 } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 import { GenreService } from './genre.service';
@@ -25,27 +26,38 @@ export class GenreController {
     return this.genreService.create(createGenreDto);
   }
 
-  @HttpCode(200)
+
   @Get()
   async index(): Promise<Genre[]> {
     return await this.genreService.findAll();
   }
 
-  @HttpCode(200)
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.genreService.findOne(+id);
+  async findOne(@Param('id') id: number){
+    const genre = await this.genreService.findOne(id);
+    console.log(genre)
+    if(!genre){
+      throw new NotFoundException({message: 'id não encontrado'})
+    }
   }
 
   @HttpCode(200)
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateGenreDto: UpdateGenreDto) {
-    return this.genreService.update(+id, updateGenreDto);
+  async update(@Param('id') id: number, @Body() updateGenreDto: UpdateGenreDto) {
+    const data = await this.genreService.update(id, updateGenreDto);
+    if(!data){
+      throw new NotFoundException({message: 'id não encontrado'});
+    }
+    return data;
   }
 
   @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.genreService.remove(+id);
+  async remove(@Param('id') id: number) {
+    const data = await this.genreService.remove(id);
+    if(!data){
+      throw new NotFoundException({message: 'id não encontrado'});
+    }
+    return data;
   }
 }
