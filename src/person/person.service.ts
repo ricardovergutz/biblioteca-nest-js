@@ -52,4 +52,10 @@ export class PersonService {
     await this.personRepository.delete(id);
     return true;
   }
+
+  async findByEmail(email: string){
+    return await this.personRepository.findOne({
+      where: {email: email}
+    })
+  }
 }
