@@ -15,7 +15,6 @@ import { CreateAuthorBooksDTO } from './dto/create-author-books.dto';
 import { CreateAuthorDTO } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { Author } from './entities/author.entity';
-import { Book } from 'src/book/entities/book.entity';
 
 @ApiTags('authors')
 @Controller('authors')
