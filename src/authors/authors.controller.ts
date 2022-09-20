@@ -6,7 +6,6 @@ import {
   HttpCode,
   NotAcceptableException,
   Param,
-  Patch,
   Post,
   Put,
 } from '@nestjs/common';
@@ -60,14 +59,6 @@ export class AuthorsController {
 
   @Put(':id')
   async updateAuthor(
-    @Param('id') id: number,
-    @Body() updateAuthorDto: UpdateAuthorDto,
-  ) {
-    return await this.author.updateAuthor(+id, updateAuthorDto);
-  }
-
-  @Patch(':id')
-  async updatePatchAuthor(
     @Param('id') id: number,
     @Body() updateAuthorDto: UpdateAuthorDto,
   ) {
