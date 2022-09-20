@@ -3,11 +3,11 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   HttpCode,
   NotFoundException,
+  Put,
 } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { GenreService } from './genre.service';
@@ -40,10 +40,11 @@ export class GenreController {
     if(!genre){
       throw new NotFoundException({message: 'id não encontrado'});
     }
+    return genre;
   }
 
   @HttpCode(200)
-  @Patch(':id')
+  @Put(':id')
   @ApiTags('Genre')
   async update(@Param('id') id: number, @Body() updateGenreDto: UpdateGenreDto) {
     const data = await this.genreService.update(id, updateGenreDto);

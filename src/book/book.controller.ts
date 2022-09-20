@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, HttpCode, NotFoundException, Put } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
-import { ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 @Controller('book')
 export class BookController {
@@ -36,7 +36,7 @@ export class BookController {
   }
 
   @HttpCode(200)
-  @Patch(':id')
+  @Put(':id')
   @ApiTags('Book')
   async update(@Param('id') id: number, @Body() updateBookDto: UpdateBookDto) {
     const data = await this.bookService.update(id, updateBookDto);
