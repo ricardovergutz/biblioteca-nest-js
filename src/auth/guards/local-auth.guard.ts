@@ -11,11 +11,10 @@ import {
       return super.canActivate(context);
     }
   
-    handleRequest(err: { message: any; }, user: any) {
+    handleRequest(err:any, user: any) {
       if (err || !user) {
         throw new UnauthorizedException(err?.message);
       }
-  
       return user;
     }
   }

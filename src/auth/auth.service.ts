@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
-    validateUser(password: string) {
+    validateUser(email: string ,password: string) {
         throw new Error('Method not implemented.');
     }
 }
