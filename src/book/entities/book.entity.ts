@@ -1,6 +1,7 @@
 import { PartialType } from "@nestjs/swagger";
+import { Author } from "src/authors/entities/author.entity";
 import { Genre } from "src/genre/entities/genre.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Book{
@@ -19,4 +20,10 @@ export class Book{
     @ManyToOne(() => Genre, (genre) => genre.books)
     @JoinColumn()
     genre: Genre;
+
+    @ManyToMany(() => Author)
+    @JoinTable({
+        name: "books_authors",
+    })
+    authors: Author[];
 }
