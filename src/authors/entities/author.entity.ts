@@ -7,7 +7,6 @@ import {
   Unique,
 } from 'typeorm';
 import { Book } from 'src/book/entities/book.entity';
-import { Validate } from 'class-validator';
 
 @Entity()
 export class Author {
