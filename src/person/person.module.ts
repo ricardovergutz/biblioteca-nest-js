@@ -9,6 +9,7 @@ import { PersonService } from './person.service';
 @Module({ 
   imports:[TypeOrmModule.forFeature([PersonEntity, employeeEntity])],
   controllers: [PersonController],
-  providers: [PersonService, EmployeeService]
+  providers: [PersonService, EmployeeService],
+  exports: [PersonService]
 })
 export class PersonModule {}
