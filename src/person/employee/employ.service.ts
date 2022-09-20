@@ -48,9 +48,13 @@ export class EmployeeService {
       }
 
     async update (id: number, data: UpdateEmployeeDTO){
-        const employee = await this.getOne(id)
-        await this.employeeRepository.update(id, data)
-        return employee
+        try{
+            const employee = await this.getOne(id)
+            await this.employeeRepository.update(id, data)
+            return employee
+        }catch(e){
+            throw new NotAcceptableException()
+        }
     }
     
     async destroy (id: number){

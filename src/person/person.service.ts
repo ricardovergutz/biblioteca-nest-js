@@ -27,17 +27,21 @@ export class PersonService {
 
   async createPerson(person: PersonDto): Promise<PersonEntity> {
     try{
-    const data = await this.personRepository.save(person);
-    return data;
+      const data = await this.personRepository.save(person);
+      return data;
     }catch(e){
-      throw new ConflictException()
+      throw new ConflictException({message: 'email ja existe'})
     }
     
   }
 
   async update(id: number, person: PersonDto) {
-    await this.personRepository.update(id, person);
-    return await this.findOne(id);
+    try{
+      await this.personRepository.update(id, person);
+      return await this.findOne(id);
+    }catch(e){
+      throw new ConflictException({message: 'email ja existe'})
+    }
   }
 
   async destroy(id: number) {
