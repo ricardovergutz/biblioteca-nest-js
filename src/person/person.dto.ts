@@ -10,12 +10,11 @@ export class PersonDto{
   @IsNotEmpty({
     message: 'Nome obrigatorio'
   })
-  @Matches(/([a-z])+$/,{
+  @Matches(/^([A-Z]{1})([a-z]{1,})+$/,{
     message: 'Apenas a primeira leta maiuscula'
   })
   @MaxLength(120)
   name: string
-
   
   @ApiProperty({example: "exemplo@exemplo.com"})
   @IsString()
