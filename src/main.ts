@@ -26,7 +26,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     })
   )
-
+  app.enableCors()
   await app.listen(3000);
 
 
