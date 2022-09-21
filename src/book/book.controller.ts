@@ -4,10 +4,29 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { CreateAuthorBooksDTO } from 'src/authors/dto/create-author-books.dto';
 
 @Controller('book')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
+
+  @Post('authors/:id')
+  @HttpCode(201)
+  async createAuthor(
+    @Param('id') id:number,
+    @Body() createAuthorBooksDTO: CreateAuthorBooksDTO
+  ): Promise<Book|null>{
+    return await this.bookService.createBookAuthors(id, createAuthorBooksDTO);
+  }
+
+  @Delete('authors/:id')
+  @HttpCode(201)
+  async deleteAuthor(
+    @Param('id') id:number,
+    @Body() createAuthorBooksDTO: CreateAuthorBooksDTO
+  ): Promise<Book|null>{
+    return await this.bookService.deleteBookAuthor(id, createAuthorBooksDTO);
+  }
 
   @Post()
   @ApiBody({ type: CreateBookDto})

@@ -1,6 +1,7 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthorsService } from 'src/authors/authors.service';
+import { CreateAuthorBooksDTO } from 'src/authors/dto/create-author-books.dto';
 import { Repository } from 'typeorm';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
@@ -15,7 +16,7 @@ export class BookService {
     private readonly authorService: AuthorsService
   ){}
 
-  async create(createBookDto: CreateBookDto): Promise<Book> {
+  async create(createBookDto: CreateBookDto, id?: number): Promise<Book> {
     try{
     return await this.bookRepository.save(createBookDto);
   } catch(err) {
@@ -45,7 +46,51 @@ export class BookService {
   }
 
   async remove(id: number) {
-    await this.bookRepository.delete({id});
-    return {deleted: true};
+    try{
+      let result =  await this.bookRepository.delete({id});
+      if(result.affected===1){
+      return true;
+      }else{
+        throw new NotAcceptableException();
+      }
+    } catch (e){
+        throw new NotAcceptableException()
+    }
+  }
+
+  async createBookAuthors(
+    id: number,
+    createAuthorBooksDTO: CreateAuthorBooksDTO
+  ): Promise<Book|null> {
+    const book = await this.findOne(id, true);
+
+    await Promise.all(
+      createAuthorBooksDTO.authorsId.map(async (newAuthorId) =>{
+        const actualAuthor = book.authors.find((author) => author.id === newAuthorId)
+        if (!actualAuthor) {
+          const newAuthor = await this.authorService.findOneAuthorById(newAuthorId);
+          book.authors = [...book.authors, newAuthor];
+        }
+      }),
+    );
+
+    await this.bookRepository.save(book);
+    return book;
+  }
+
+  async deleteBookAuthor(
+    id: number,
+    createAuthorBooksDTO: CreateAuthorBooksDTO
+  ): Promise<Book|null>{
+    const book = await this.findOne(id, true);
+
+    createAuthorBooksDTO.authorsId.map((authorId) => {
+      book.authors = book.authors.filter((author) => author.id !== authorId);
+    });
+
+    await this.bookRepository.save(book);
+    return book;
   }
 }
+
+
