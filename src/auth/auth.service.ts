@@ -3,6 +3,9 @@ import { PersonService } from 'src/person/person.service';
 import * as bcrypt from 'bcrypt'
 import { EmployeeService } from 'src/person/employee/employ.service';
 import { employeeEntity } from 'src/person/employee/employee.entity';
+import { PersonEntity } from 'src/person/person.entity';
+import { employeeDto } from 'src/person/employee/employee.dto';
+
 @Injectable()
 export class AuthService {
     constructor(private readonly personService: PersonService,
