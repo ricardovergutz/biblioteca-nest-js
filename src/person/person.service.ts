@@ -55,7 +55,7 @@ export class PersonService {
 
   async findByEmail(email: string){
     return await this.personRepository.findOne({
-      where: {email: email}
+      where: {email},
     })
   }
 }
