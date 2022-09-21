@@ -10,7 +10,7 @@ export class PersonDto{
   @IsNotEmpty({
     message: 'Nome obrigatorio'
   })
-  @Matches(/^([A-Z]{1})([a-z]{1,})+\s[a-z]+$/,{
+  @Matches(/^\b(?:[A-Z][a-z]\w+\b(?:\s*)?)+$/,{
     message: 'Apenas a primeira leta maiuscula'
   })
   @MaxLength(120)

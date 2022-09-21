@@ -8,6 +8,6 @@ import { AuthorsModule } from './authors/authors.module';
 
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeOrmConfig), PersonModule , GenreModule, BookModule, AuthorsModule],
+  imports: [TypeOrmModule.forRoot(typeOrmConfig), PersonModule /* , GenreModule, BookModule, AuthorsModule */],
 })
 export class AppModule {}
