@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Matches, MaxLength } from 'class-validator';
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { Genre } from 'src/genre/entities/genre.entity';
 
@@ -10,6 +10,9 @@ export class CreateBookDto{
   @MaxLength(150)
   @IsNotEmpty({
     message: 'Informe o nome do livro',
+  })
+  @Matches(/^([A-Z]{1})([a-z]{1,})+$/,{
+    message: 'Apenas a primeira leta maiuscula'
   })
   name: string;
   
