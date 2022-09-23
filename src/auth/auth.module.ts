@@ -4,15 +4,16 @@ import { PassportModule } from '@nestjs/passport';
 import { PersonModule } from 'src/person/person.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { jwtConstants } from './constants';
+import { JwtStrategy } from './strategies/jwt.strategies';
 import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
-  imports: [PersonModule, PassportModule],
+  imports: [PersonModule,JwtModule.register({
+    secret: jwtConstants.secret,
+    signOptions: {expiresIn: '30d'}
+  })],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, /*JwtStrategy */]
+  providers: [AuthService, LocalStrategy,JwtStrategy]
 })
-export class AuthModule /* implements NestModule */ {
-  /* configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoginValidationMiddleware).forRoutes('login');
-  } */
-}
+export class AuthModule {}

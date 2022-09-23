@@ -8,13 +8,20 @@ import { PersonDto } from './person.dto';
 import { PersonService } from './person.service';
 import { UpdatePersonDTO } from './updatePerson.dto';
 import { PersonEntity } from './person.entity';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 
 @Controller('person')
+@IsPublic()
 export class PersonController {
   constructor(private personService: PersonService,
               private employeeService: EmployeeService
     ){}
+
+    @Get('env')
+    async env() {
+      return process.env
+    }
 
     @ApiTags('employee')
     @Put('change/:id')
