@@ -21,7 +21,7 @@ export class GenreController {
 
   @HttpCode(201)
   @Post()
-  @ApiBody({ type: CreateGenreDto})
+  @ApiBody({ type: CreateGenreDto })
   @ApiTags('Genre')
   create(@Body() createGenreDto: CreateGenreDto): Promise<Genre> {
     return this.genreService.create(createGenreDto);
@@ -35,10 +35,10 @@ export class GenreController {
 
   @Get(':id')
   @ApiTags('Genre')
-  async findOne(@Param('id') id: number){
+  async findOne(@Param('id') id: number) {
     const genre = await this.genreService.findOne(id);
-    if(!genre){
-      throw new NotFoundException({message: 'id não encontrado'});
+    if (!genre) {
+      throw new NotFoundException({ message: 'id não encontrado' });
     }
     return genre;
   }
@@ -46,10 +46,13 @@ export class GenreController {
   @HttpCode(200)
   @Put(':id')
   @ApiTags('Genre')
-  async update(@Param('id') id: number, @Body() updateGenreDto: UpdateGenreDto) {
+  async update(
+    @Param('id') id: number,
+    @Body() updateGenreDto: UpdateGenreDto,
+  ) {
     const data = await this.genreService.update(id, updateGenreDto);
-    if(!data){
-      throw new NotFoundException({message: 'id não encontrado'});
+    if (!data) {
+      throw new NotFoundException({ message: 'id não encontrado' });
     }
     return data;
   }
@@ -59,8 +62,8 @@ export class GenreController {
   @ApiTags('Genre')
   async remove(@Param('id') id: number) {
     const data = await this.genreService.remove(id);
-    if(!data){
-      throw new NotFoundException({message: 'id não encontrado'});
+    if (!data) {
+      throw new NotFoundException({ message: 'id não encontrado' });
     }
     return data;
   }

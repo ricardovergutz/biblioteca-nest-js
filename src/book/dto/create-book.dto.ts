@@ -1,7 +1,16 @@
-import { IsArray, IsEmpty, IsFQDN, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator';
+import {
+  IsArray,
+  IsEmpty,
+  IsFQDN,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateBookDto{
+export class CreateBookDto {
   @ApiProperty()
   @IsString({
     message: 'Informe uma string',
@@ -11,7 +20,6 @@ export class CreateBookDto{
     message: 'Informe o nome do livro',
   })
   name: string;
-  
 
   @ApiProperty()
   @IsString({
@@ -31,5 +39,5 @@ export class CreateBookDto{
 
   @IsOptional()
   @IsArray()
-  authorsId?: number[]
+  authorsId?: number[];
 }
