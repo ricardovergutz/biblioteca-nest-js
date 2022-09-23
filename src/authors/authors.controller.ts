@@ -24,7 +24,7 @@ export class AuthorsController {
   @Post()
   @HttpCode(201)
   async create(@Body() createAuthorDTO: CreateAuthorDTO) {
-    return await this.author.createAuthor(createAuthorDTO);
+    return await this.author.create(createAuthorDTO);
   }
 
   @Post('books/:id')
@@ -45,30 +45,30 @@ export class AuthorsController {
   }
 
   @Get()
-  async findAllAuthors(): Promise<Author[]> {
-    return await this.author.findAllAuthors();
+  async findAll(): Promise<Author[]> {
+    return await this.author.findAll();
   }
 
   @Get(':id/:books?')
-  async findOneAuthorById(
+  async findOne(
     @Param('id') id: number,
     @Param('books') books: string,
   ) {
-    return await this.author.findOneAuthorById(+id, books === 'books');
+    return await this.author.findOne(+id, books === 'books');
   }
 
   @Put(':id')
-  async updateAuthor(
+  async update(
     @Param('id') id: number,
     @Body() updateAuthorDto: UpdateAuthorDto,
   ) {
-    return await this.author.updateAuthor(+id, updateAuthorDto);
+    return await this.author.update(+id, updateAuthorDto);
   }
 
   @Delete(':id')
   @HttpCode(204)
   async remove(@Param('id') id: number) {
-    const author = await this.author.deleteAuthor(id);
+    const author = await this.author.delete(id);
     if(!author){
       throw new NotAcceptableException()
     }
