@@ -4,6 +4,7 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 import { Book } from 'src/book/entities/book.entity';
 
