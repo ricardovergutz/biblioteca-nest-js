@@ -20,9 +20,6 @@ export class CreateBookDto{
   @IsNotEmpty({
     message: 'Informe o url do livro',
   })
-  @IsFQDN({
-    message: 'Informe uma url válida',
-  })
   url: string;
 
   @ApiProperty()
