@@ -1,5 +1,6 @@
 import { ConflictException, Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { exit } from 'process';
 import { AuthorsService } from 'src/authors/authors.service';
 import { Author } from 'src/authors/entities/author.entity';
 import { Repository } from 'typeorm';
@@ -22,10 +23,10 @@ export class BookService {
   async create(createBookDto: CreateBookDto): Promise<Book> {
     try{
       let book = await this.bookRepository.create(createBookDto);
+      await this.bookRepository.save(book);
 
       if (createBookDto.authorsId){
         await this.createBookAuthors(book.id, { authorsId: createBookDto.authorsId } );
-
         book = await this.findOne(book.id, true);
       }
 
