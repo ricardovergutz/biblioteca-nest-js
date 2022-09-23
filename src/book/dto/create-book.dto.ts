@@ -28,7 +28,7 @@ export class CreateBookDto {
   @IsNotEmpty({
     message: 'Informe o url do livro',
   })
-  url: string;
+  image_url: string;
 
   @ApiProperty()
   @IsNumber()

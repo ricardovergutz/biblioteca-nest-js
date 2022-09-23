@@ -19,9 +19,9 @@ export class UpdateBookDto extends PartialType(CreateBookDto) {
     message: 'Informe uma string',
   })
   @IsNotEmpty({
-    message: 'Informe o url do livro',
+    message: 'Informe o imageUrl do livro',
   })
-  url: string;
+  image_url: string;
 
   @ApiProperty()
   @IsNumber()
