@@ -6,7 +6,6 @@ export class CreateGenreDto {
     @IsNotEmpty({
         message: 'name não pode ser vazio',
     })
-    @IsFQDN()
     @IsString({
         message: 'name precisa ser uma string',
     })

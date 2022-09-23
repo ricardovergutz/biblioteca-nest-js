@@ -42,7 +42,7 @@ export class EmployeeService {
         
             return this.personRepository.findOneOrFail({ where : { id: employee.personId } });
         }catch(e){
-            throw new ConflictException()
+            throw new ConflictException({message: 'email ja existe'})
         }
         
       }
@@ -76,4 +76,5 @@ export class EmployeeService {
     
         return ( await this.employeeRepository.save(employee) )
       }
+
 }

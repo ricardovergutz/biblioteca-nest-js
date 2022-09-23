@@ -4,11 +4,14 @@ import { Repository } from 'typeorm';
 import { PersonDto } from './person.dto';
 import { PersonEntity } from './person.entity';
 import { EmployeeService } from './employee/employ.service';
+import { employeeEntity } from './employee/employee.entity';
 
 @Injectable()
 export class PersonService {
   constructor(@InjectRepository(PersonEntity)
   private personRepository: Repository<PersonEntity>,
+  @InjectRepository(employeeEntity)
+  private employeeRepository: Repository<employeeEntity>,
     private employeeService: EmployeeService) {}
 
   async showAll() {
@@ -54,8 +57,10 @@ export class PersonService {
   }
 
   async findByEmail(email: string){
-    return await this.personRepository.findOne({
-      where: {email},
-    })
+    return await this.employeeRepository.createQueryBuilder('employee')
+    .select("employee.password")
+    .innerJoinAndSelect('employee.person', 'person')
+    .where('person.email = :email', { email })
+    .getOneOrFail()
   }
 }

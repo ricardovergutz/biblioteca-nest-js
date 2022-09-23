@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray } from 'class-validator';
 
-export class CreateAuthorBooksDTO {
+export class CreateBookAuthorsDTO {
   @IsArray()
-  booksId: number[];
+  authorsId: number[];
 }
