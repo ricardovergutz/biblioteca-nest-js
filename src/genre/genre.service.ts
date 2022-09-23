@@ -1,4 +1,9 @@
-import { ConflictException, Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateGenreDto } from './dto/create-genre.dto';
@@ -13,9 +18,9 @@ export class GenreService {
 
   async create(createGenreDto: CreateGenreDto): Promise<Genre> {
     try {
-    return await this.genreRepository.save(createGenreDto);
-    } catch(err) {
-      throw new ConflictException({message: "Genero  já existente"});
+      return await this.genreRepository.save(createGenreDto);
+    } catch (err) {
+      throw new ConflictException({ message: 'Genero  já existente' });
     }
   }
 
@@ -24,19 +29,19 @@ export class GenreService {
   }
 
   async findOne(id: number) {
-    try{
+    try {
       return await this.genreRepository.findOneOrFail({ where: { id } });
-    }catch(err) {
+    } catch (err) {
       throw new NotFoundException();
     }
   }
 
   async update(id: number, updateGenreDto: UpdateGenreDto) {
     try {
-    await this.genreRepository.update({ id }, updateGenreDto);
-    return await this.genreRepository.findOne({ where: { id: id } });
-    } catch(err) {
-      throw new ConflictException({message: "Genero  já existente"});
+      await this.genreRepository.update({ id }, updateGenreDto);
+      return await this.genreRepository.findOne({ where: { id: id } });
+    } catch (err) {
+      throw new ConflictException({ message: 'Genero  já existente' });
     }
   }
 
@@ -45,9 +50,8 @@ export class GenreService {
     try {
       await this.genreRepository.delete(genrer);
       return true;
-    }catch (err){
+    } catch (err) {
       throw new NotAcceptableException();
     }
-    
   }
 }

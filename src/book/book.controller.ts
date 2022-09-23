@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Param, Delete, HttpCode, NotFoundException, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  HttpCode,
+  NotFoundException,
+  Put,
+} from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
@@ -13,23 +23,23 @@ export class BookController {
   @Post('authors/:id')
   @HttpCode(201)
   async createAuthor(
-    @Param('id') id:number,
-    @Body() createBookAuthorsDTO: CreateBookAuthorsDTO
-  ): Promise<Book|null>{
+    @Param('id') id: number,
+    @Body() createBookAuthorsDTO: CreateBookAuthorsDTO,
+  ): Promise<Book | null> {
     return await this.bookService.createBookAuthors(id, createBookAuthorsDTO);
   }
 
   @Delete('authors/:id')
   @HttpCode(201)
   async deleteAuthor(
-    @Param('id') id:number,
-    @Body() createBookAuthorsDTO: CreateBookAuthorsDTO
-  ): Promise<Book|null>{
+    @Param('id') id: number,
+    @Body() createBookAuthorsDTO: CreateBookAuthorsDTO,
+  ): Promise<Book | null> {
     return await this.bookService.deleteBookAuthor(id, createBookAuthorsDTO);
   }
 
   @Post()
-  @ApiBody({ type: CreateBookDto})
+  @ApiBody({ type: CreateBookDto })
   @ApiTags('Book')
   @HttpCode(201)
   async create(@Body() createBookDto: CreateBookDto): Promise<Book> {
@@ -48,8 +58,8 @@ export class BookController {
   @ApiTags('Book')
   async findOne(@Param('id') id: number) {
     const book = await this.bookService.findOne(id);
-    if(!book){
-      throw new NotFoundException({message: 'id não encontrado'});
+    if (!book) {
+      throw new NotFoundException({ message: 'id não encontrado' });
     }
     return book;
   }
@@ -59,8 +69,8 @@ export class BookController {
   @ApiTags('Book')
   async update(@Param('id') id: number, @Body() updateBookDto: UpdateBookDto) {
     const data = await this.bookService.update(id, updateBookDto);
-    if(!data){
-      throw new NotFoundException({message: 'Id não encontrado'});
+    if (!data) {
+      throw new NotFoundException({ message: 'Id não encontrado' });
     }
     return data;
   }
@@ -70,8 +80,8 @@ export class BookController {
   @ApiTags('Book')
   async remove(@Param('id') id: number) {
     const data = await this.bookService.remove(id);
-    if(!data){
-      throw new NotFoundException({message: 'Id não encontrado'});
+    if (!data) {
+      throw new NotFoundException({ message: 'Id não encontrado' });
     }
     return data;
   }

@@ -6,9 +6,8 @@ export class Genre {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({unique: true})
+  @Column({ unique: true })
   name: string;
-  
 
   @OneToMany(() => Book, (book) => book.genre)
   books: Book[];
