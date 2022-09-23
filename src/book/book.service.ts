@@ -1,8 +1,9 @@
 import { ConflictException, Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthorsService } from 'src/authors/authors.service';
-import { CreateAuthorBooksDTO } from 'src/authors/dto/create-author-books.dto';
+import { Author } from 'src/authors/entities/author.entity';
 import { Repository } from 'typeorm';
+import { CreateBookAuthorsDTO } from './dto/create-book-authors.dto';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
@@ -13,15 +14,30 @@ export class BookService {
   constructor(
     @InjectRepository(Book) 
     private readonly bookRepository: Repository<Book>,
-    private readonly authorService: AuthorsService
+    @InjectRepository(Author) 
+    private readonly authorRepository: Repository<Author>,
+    // private readonly authorService: AuthorsService
   ){}
 
-  async create(createBookDto: CreateBookDto, id?: number): Promise<Book> {
+  async create(createBookDto: CreateBookDto): Promise<Book> {
     try{
-    return await this.bookRepository.save(createBookDto);
-  } catch(err) {
-    throw new ConflictException({message: "url  já existente"});
-  }
+      let book = await this.bookRepository.create(createBookDto);
+
+      if (createBookDto.authorsId){
+        await this.createBookAuthors(book.id, { authorsId: createBookDto.authorsId } );
+
+        book = await this.findOne(book.id, true);
+      }
+
+      return book;
+    } catch(err) {
+      if (err.code==23505) {
+        throw new ConflictException({message: "url já existente"});
+      }else if(err.code==23503){
+        throw new NotAcceptableException({message: "genreId not found"});
+      }
+      throw new NotAcceptableException({ message: err});
+    }
   }
 
   async findAll() {
@@ -60,15 +76,15 @@ export class BookService {
 
   async createBookAuthors(
     id: number,
-    createAuthorBooksDTO: CreateAuthorBooksDTO
+    createBookAuthorsDTO: CreateBookAuthorsDTO
   ): Promise<Book|null> {
     const book = await this.findOne(id, true);
 
     await Promise.all(
-      createAuthorBooksDTO.authorsId.map(async (newAuthorId) =>{
+      createBookAuthorsDTO.authorsId.map(async (newAuthorId) =>{
         const actualAuthor = book.authors.find((author) => author.id === newAuthorId)
         if (!actualAuthor) {
-          const newAuthor = await this.authorService.findOneAuthorById(newAuthorId);
+          const newAuthor = await this.authorRepository.findOneByOrFail({id: newAuthorId});
           book.authors = [...book.authors, newAuthor];
         }
       }),
@@ -80,11 +96,11 @@ export class BookService {
 
   async deleteBookAuthor(
     id: number,
-    createAuthorBooksDTO: CreateAuthorBooksDTO
+    createBookAuthorsDTO: CreateBookAuthorsDTO
   ): Promise<Book|null>{
     const book = await this.findOne(id, true);
 
-    createAuthorBooksDTO.authorsId.map((authorId) => {
+    createBookAuthorsDTO.authorsId.map((authorId) => {
       book.authors = book.authors.filter((author) => author.id !== authorId);
     });
 

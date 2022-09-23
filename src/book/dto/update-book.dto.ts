@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, Matches, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
 import { CreateBookDto } from './create-book.dto';
 
 export class UpdateBookDto extends PartialType(CreateBookDto) {
@@ -12,11 +12,7 @@ export class UpdateBookDto extends PartialType(CreateBookDto) {
   @IsNotEmpty({
     message: 'Informe o nome do livro',
   })
-  @Matches(/^([A-Z]{1})([a-z]{1,})+$/,{
-    message: 'Apenas a primeira leta maiuscula'
-  })
   name: string;
-  
 
   @ApiProperty()
   @IsString({

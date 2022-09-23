@@ -1,6 +1,5 @@
-import { IsNotEmpty, IsNumber, IsString, Matches, MaxLength } from 'class-validator';
-import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { Genre } from 'src/genre/entities/genre.entity';
+import { IsArray, IsEmpty, IsFQDN, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateBookDto{
   @ApiProperty()
@@ -10,9 +9,6 @@ export class CreateBookDto{
   @MaxLength(150)
   @IsNotEmpty({
     message: 'Informe o nome do livro',
-  })
-  @Matches(/^([A-Z]{1})([a-z]{1,})+$/,{
-    message: 'Apenas a primeira leta maiuscula'
   })
   name: string;
   
@@ -24,6 +20,9 @@ export class CreateBookDto{
   @IsNotEmpty({
     message: 'Informe o url do livro',
   })
+  @IsFQDN({
+    message: 'Informe uma url válida',
+  })
   url: string;
 
   @ApiProperty()
@@ -32,4 +31,8 @@ export class CreateBookDto{
     message: 'informe um Id de genero',
   })
   genreId: number;
+
+  @IsOptional()
+  @IsArray()
+  authorsId?: number[]
 }

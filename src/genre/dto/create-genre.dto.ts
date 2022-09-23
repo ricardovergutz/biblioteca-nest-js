@@ -6,12 +6,8 @@ export class CreateGenreDto {
     @IsNotEmpty({
         message: 'name não pode ser vazio',
     })
-    @IsFQDN()
     @IsString({
         message: 'name precisa ser uma string',
     })
-    @Matches(/^([A-Z]{1})([a-z]{1,})+$/,{
-        message: 'Apenas a primeira leta maiuscula'
-      })
     name: string;
 }
