@@ -45,12 +45,12 @@ export class AuthorsController {
   }
 
   @Get()
-  async findAll(): Promise<Author[]> {
+  async findAllAuthors(): Promise<Author[]> {
     return await this.author.findAll();
   }
 
   @Get(':id/:books?')
-  async findOne(
+  async findOneAuthorById(
     @Param('id') id: number,
     @Param('books') books: string,
   ) {
@@ -58,7 +58,7 @@ export class AuthorsController {
   }
 
   @Put(':id')
-  async update(
+  async updateAuthor(
     @Param('id') id: number,
     @Body() updateAuthorDto: UpdateAuthorDto,
   ) {
