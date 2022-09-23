@@ -16,14 +16,14 @@ export class AuthorsService {
     private readonly bookRepository: Repository<Book>,
   ) {}
 
-  async findAllAuthors(): Promise<Author[]> {
+  async findAll(): Promise<Author[]> {
     const authors = await this.authorRepository.find({
       relations: { books: true },
     });
     return authors;
   }
 
-  async findOneAuthorById(id: number, _books = false): Promise<Author> {
+  async findOne(id: number, _books = false): Promise<Author> {
     try {
       return await this.authorRepository.findOneOrFail({
         where: { id },
@@ -34,7 +34,7 @@ export class AuthorsService {
     }
   }
 
-  async createAuthor(createAuthorDto: CreateAuthorDTO, id?: number): Promise<Author> {
+  async create(createAuthorDto: CreateAuthorDTO, id?: number): Promise<Author> {
     try {
       // await this.findOneAuthorById(id); corrigir para puxar o id
     return await this.authorRepository.save(createAuthorDto);
@@ -43,10 +43,10 @@ export class AuthorsService {
     }
   }
 
-  async updateAuthor(id: number, updateAuthorDto: UpdateAuthorDto) {
+  async update(id: number, updateAuthorDto: UpdateAuthorDto) {
     
     try{
-    await this.findOneAuthorById(id);
+    await this.findOne(id);
     await this.authorRepository.update({ id }, updateAuthorDto);
     return updateAuthorDto;
     } catch (err) {
@@ -54,8 +54,8 @@ export class AuthorsService {
     }
   }
 
-  async deleteAuthor(id: number) {
-    await this.findOneAuthorById(id);
+  async delete(id: number) {
+    await this.findOne(id);
     try {
       let result = await this.authorRepository.delete(id);
       if (result.affected===1){
@@ -72,7 +72,7 @@ export class AuthorsService {
     id: number,
     createAuthorBooksDTO: CreateAuthorBooksDTO,
   ): Promise<Author|null> {
-    const author = await this.findOneAuthorById(id, true);
+    const author = await this.findOne(id, true);
 
     await Promise.all(
       createAuthorBooksDTO.booksId.map(async (newBookId) => {
@@ -96,7 +96,7 @@ export class AuthorsService {
     id: number,
     createAuthorBooksDTO: CreateAuthorBooksDTO,
   ): Promise<Author|null> {
-    const author = await this.findOneAuthorById(id, true);
+    const author = await this.findOne(id, true);
 
     createAuthorBooksDTO.booksId.map((bookId) => {
       author.books = author.books.filter((book) => book.id !== bookId);
