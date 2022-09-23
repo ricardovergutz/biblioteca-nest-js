@@ -7,11 +7,14 @@ import { BookModule } from './book/book.module';
 import { AuthorsModule } from './authors/authors.module';
 import { AuthModule } from './auth/auth.module';
 
-
 @Module({
-  imports: [TypeOrmModule.forRoot(typeOrmConfig), PersonModule, GenreModule, BookModule,AuthModule
-    // , AuthorsModule
+  imports: [
+    TypeOrmModule.forRoot(typeOrmConfig),
+    PersonModule,
+    GenreModule,
+    BookModule,
+    AuthModule,
+    AuthorsModule,
   ],
-
 })
 export class AppModule {}

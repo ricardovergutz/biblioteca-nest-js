@@ -1,6 +1,6 @@
 import { ConflictException, Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BookService } from 'src/book/book.service';
+import { Book } from 'src/book/entities/book.entity';
 import { Repository } from 'typeorm';
 import { CreateAuthorBooksDTO } from './dto/create-author-books.dto';
 import { CreateAuthorDTO } from './dto/create-author.dto';
@@ -12,7 +12,8 @@ export class AuthorsService {
   constructor(
     @InjectRepository(Author)
     private readonly authorRepository: Repository<Author>,
-    private readonly bookService: BookService
+    @InjectRepository(Book)
+    private readonly bookRepository: Repository<Book>,
   ) {}
 
   async findAllAuthors(): Promise<Author[]> {
@@ -77,8 +78,12 @@ export class AuthorsService {
       createAuthorBooksDTO.booksId.map(async (newBookId) => {
         const actualBook = author.books.find((book) => book.id === newBookId);
         if (!actualBook) {
-          const newBook = await this.bookService.findOne(newBookId);
-          author.books = [...author.books, newBook];
+          try{
+            const newBook = await this.bookRepository.findOneByOrFail({id: newBookId});
+            author.books = [...author.books, newBook];
+          }catch(err){
+            throw new NotAcceptableException({message: `Book not found: ${newBookId}`, id: newBookId });
+          }
         }
       }),
     );

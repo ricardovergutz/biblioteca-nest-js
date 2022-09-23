@@ -1,7 +1,5 @@
 import { ConflictException, Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { exit } from 'process';
-import { AuthorsService } from 'src/authors/authors.service';
 import { Author } from 'src/authors/entities/author.entity';
 import { Repository } from 'typeorm';
 import { CreateBookAuthorsDTO } from './dto/create-book-authors.dto';
@@ -17,7 +15,6 @@ export class BookService {
     private readonly bookRepository: Repository<Book>,
     @InjectRepository(Author) 
     private readonly authorRepository: Repository<Author>,
-    // private readonly authorService: AuthorsService
   ){}
 
   async create(createBookDto: CreateBookDto): Promise<Book> {
