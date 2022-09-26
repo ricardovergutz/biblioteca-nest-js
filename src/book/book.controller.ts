@@ -15,8 +15,10 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { CreateBookAuthorsDTO } from './dto/create-book-authors.dto';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('book')
+@IsPublic()
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 

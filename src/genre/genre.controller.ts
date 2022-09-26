@@ -14,8 +14,10 @@ import { GenreService } from './genre.service';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { UpdateGenreDto } from './dto/update-genre.dto';
 import { Genre } from './entities/genre.entity';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('genre')
+@IsPublic()
 export class GenreController {
   constructor(private readonly genreService: GenreService) {}
 

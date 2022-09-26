@@ -10,6 +10,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 import { AuthorsService } from './authors.service';
 import { CreateAuthorBooksDTO } from './dto/create-author-books.dto';
 import { CreateAuthorDTO } from './dto/create-author.dto';
@@ -18,6 +19,7 @@ import { Author } from './entities/author.entity';
 
 @ApiTags('authors')
 @Controller('authors')
+@IsPublic()
 export class AuthorsController {
   constructor(private readonly author: AuthorsService) {}
 
