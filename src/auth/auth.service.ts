@@ -1,9 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PersonService } from 'src/person/person.service';
 import * as bcrypt from 'bcrypt'
-import { EmployeeService } from 'src/person/employee/employ.service';
-import { employeeEntity } from 'src/person/employee/employee.entity';
-import { employeeDto } from 'src/person/employee/employee.dto';
 import { PersonEntity } from 'src/person/person.entity';
 
 
@@ -19,7 +16,7 @@ export class AuthService {
                 private readonly jwtService: JwtService
         ){}
     login(user: PersonEntity): UserToken {
-         const payload: UserPayload  = {
+        const payload: UserPayload  = {
             sub: user.id,
             email: user.email,
          }
@@ -37,10 +34,7 @@ export class AuthService {
                 const isPasswordValid = await bcrypt.compare(password, employee.password )
                 
                 if(isPasswordValid){
-                    return {
-                        ...employee,
-                        password: undefined
-                    }
+                    return employee.person;
                 }
             }
             throw new ForbiddenException('Endereço de Email ou senha incorretos')
