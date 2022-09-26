@@ -7,20 +7,19 @@ import { employeeEntity } from './employee/employee.entity';
 import { PersonDto } from './person.dto';
 import { PersonService } from './person.service';
 import { UpdatePersonDTO } from './updatePerson.dto';
-import { PersonEntity } from './person.entity';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 
 
 @Controller('person')
-@IsPublic()
 export class PersonController {
   constructor(private personService: PersonService,
               private employeeService: EmployeeService
     ){}
 
-    @Get('env')
-    async env() {
-      return process.env
+    @Get('user')
+    getUser(@CurrentUser() user: employeeEntity){
+      return user
     }
 
     @ApiTags('employee')
@@ -55,6 +54,7 @@ export class PersonController {
     })
     @ApiNotFoundResponse({status: 404, description: "Not found"})
     @ApiResponse({status: 200, description: 'Busca apenas 1 funcionario.'})
+    @IsPublic()
     @Get('employee/:id')
     async getOneEmployee(@Param('id') id:number){
       const user = await this.employeeService.getOne(id)
@@ -64,6 +64,7 @@ export class PersonController {
     return user;
     }
     @ApiTags('employee')
+    @IsPublic()
     @ApiResponse({status: 204, description: 'Deleta um funcionario'})
     @Delete('employee/:id')
     async deleteEmployee(@Param('id') id: number){
@@ -74,6 +75,7 @@ export class PersonController {
       return user
     }
     @ApiTags('employee')
+    @IsPublic()
     @ApiResponse({status: 200, description: 'Atualiza a senha do funcionario.'})
     @Put('employee/:id')
     async UpdateEmployee(@Param('id') id: number, @Body() data: UpdateEmployeeDTO){
@@ -85,6 +87,7 @@ export class PersonController {
     }
 
   @ApiTags('person')
+  @IsPublic()
   @ApiResponse({status: 200, description: 'Busca todos os funcionarios.'})
   @Get()
   async showAllPerson(){
@@ -92,6 +95,7 @@ export class PersonController {
     return data;
   }
   @ApiTags('person')
+  @IsPublic()
   @ApiNotFoundResponse({status: 404, description: "Not found"})
   @ApiResponse({status: 200, description: 'Busca apenas 1 pessoa.'})
   @Get(':id')
@@ -101,6 +105,7 @@ export class PersonController {
     return data.toJSON();
   }
   @ApiTags('person')
+  @IsPublic()
   @ApiCreatedResponse({status: 201, description: 'Cria uma pessoa.'})
   @Post()
   async create(@Body() person: PersonDto){
@@ -108,6 +113,7 @@ export class PersonController {
     return data;
   }
   @ApiTags('person')
+  @IsPublic()
   @ApiResponse({status: 200, description: 'Atualiza o nome ou email da pessoa.'})
   @Put(':id')
   async update(@Param('id') id: number, @Body() person: PersonDto) {
@@ -119,6 +125,7 @@ export class PersonController {
   }
 
   @ApiTags('person')
+  @IsPublic()
   @ApiResponse({status: 204, description: 'Deleta uma pessoa'})
   @Delete(':id')
   async PersonDelete(@Param('id') id:number){
