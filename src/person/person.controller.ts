@@ -9,6 +9,7 @@ import { PersonService } from './person.service';
 import { UpdatePersonDTO } from './updatePerson.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { PersonEntity } from './person.entity';
 
 
 @Controller('person')
@@ -18,7 +19,7 @@ export class PersonController {
     ){}
 
     @Get('user')
-    getUser(@CurrentUser() user: employeeEntity){
+    getUser(@CurrentUser() user: PersonEntity){
       return user
     }
 
