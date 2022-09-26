@@ -24,6 +24,7 @@ export class BookController {
 
   @Post('authors/:id')
   @HttpCode(201)
+  @ApiTags('Book')
   async createAuthor(
     @Param('id') id: number,
     @Body() createBookAuthorsDTO: CreateBookAuthorsDTO,
@@ -33,6 +34,7 @@ export class BookController {
 
   @Delete('authors/:id')
   @HttpCode(201)
+  @ApiTags('Book')
   async deleteAuthor(
     @Param('id') id: number,
     @Body() createBookAuthorsDTO: CreateBookAuthorsDTO,

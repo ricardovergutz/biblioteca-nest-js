@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator';
 import { CreateBookDto } from './create-book.dto';
 
 export class UpdateBookDto extends PartialType(CreateBookDto) {
@@ -19,7 +19,7 @@ export class UpdateBookDto extends PartialType(CreateBookDto) {
     message: 'Informe uma string',
   })
   @IsNotEmpty({
-    message: 'Informe o imageUrl do livro',
+    message: 'Informe o url do livro',
   })
   image_url: string;
 
@@ -29,4 +29,9 @@ export class UpdateBookDto extends PartialType(CreateBookDto) {
     message: 'informe um Id de genero',
   })
   genreId: number;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsArray()
+  authorsId?: number[];
 }

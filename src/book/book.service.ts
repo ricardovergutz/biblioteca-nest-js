@@ -18,7 +18,22 @@ export class BookService {
   ){}
 
   async create(createBookDto: CreateBookDto): Promise<Book> {
+    let authorId = 0;
+    try {
+      if (createBookDto.authorsId){
+        await Promise.all(
+          createBookDto.authorsId.map( async (author) => {
+            authorId = author;
+            await this.authorRepository.findOneByOrFail({ id: author });
+          }),
+        );
+      }
+    }catch (err) {
+      throw new NotAcceptableException({ message: `author not found ${authorId}`})
+    }
+
     try{
+
       let book = await this.bookRepository.create(createBookDto);
       await this.bookRepository.save(book);
 
@@ -30,7 +45,7 @@ export class BookService {
       return book;
     } catch(err) {
       if (err.code==23505) {
-        throw new ConflictException({message: "url já existente"});
+        throw new ConflictException({message: `${err}`});
       }else if(err.code==23503){
         throw new NotAcceptableException({message: "genreId not found"});
       }
@@ -42,9 +57,9 @@ export class BookService {
     return await this.bookRepository.find({relations: {genre: true, authors: true}});
   }
 
-  async findOne(id: number, _authors = false): Promise<Book> {
+  async findOne(id: number, authors = true): Promise<Book> {
     try{
-      return await this.bookRepository.findOneOrFail({where: {id}, relations: { genre: true, authors: _authors}});
+      return await this.bookRepository.findOneOrFail({where: {id}, relations: { genre: true, authors: authors}});
     }catch(err){
       throw new NotFoundException();       
     }
@@ -55,7 +70,7 @@ export class BookService {
     await this.bookRepository.update({ id }, updateBookDto);
     return await this.bookRepository.findOne({ where: { id: id } });
     } catch(err){
-      throw new ConflictException({message: "url já existente"});
+      throw new ConflictException({message: `${err}`});
     }
   }
 
