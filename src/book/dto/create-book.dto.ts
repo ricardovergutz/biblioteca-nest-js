@@ -37,6 +37,7 @@ export class CreateBookDto {
   })
   genreId: number;
 
+  @ApiProperty()
   @IsOptional()
   @IsArray()
   authorsId?: number[];
