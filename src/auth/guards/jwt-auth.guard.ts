@@ -18,7 +18,7 @@ import {
       super();
     }
   
-    canActivate(context: ExecutionContext): Promise<boolean> | boolean {
+    canActivate(context: ExecutionContext){
       const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
         context.getHandler(),
         context.getClass(),
@@ -28,20 +28,20 @@ import {
         return true;
       }
   
-      const canActivate = super.canActivate(context);
+      return super.canActivate(context);
   
-      if (typeof canActivate === 'boolean') {
+      /* if (typeof canActivate === 'boolean') {
         return canActivate;
       }
-  
+
       const canActivatePromise = canActivate as Promise<boolean>;
   
       return canActivatePromise.catch((error) => {
-        /* if (error instanceof UnauthorizedError) */ {
-          throw new UnauthorizedException(error.message);
-        }
+        // if (error instanceof UnauthorizedErro) {
+        //   throw new UnauthorizedException(error.message);
+        // }
   
         throw new UnauthorizedException();
-      });
+      }); */
     }
   }

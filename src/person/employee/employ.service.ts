@@ -64,6 +64,8 @@ export class EmployeeService {
     }
 
     async changePerson(id: number, data: UpdatePersonDTO): Promise<Partial<PersonEntity>>{
+        try{
+
         let person = await this.personRepository.findOne({where: {id: id}, relations: {employee: true}})
     
         if(person?.employee){
@@ -75,6 +77,9 @@ export class EmployeeService {
         employee.personId = id;
     
         return ( await this.employeeRepository.save(employee) )
+    }catch(e){
+        throw new NotAcceptableException()
+    }
       }
 
 }
