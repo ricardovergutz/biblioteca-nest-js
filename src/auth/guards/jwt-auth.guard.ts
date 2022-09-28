@@ -27,7 +27,7 @@ import {
       if (isPublic) {
         return true;
       }
-  
+
       return super.canActivate(context);
   
       /* if (typeof canActivate === 'boolean') {
