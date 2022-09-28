@@ -91,6 +91,7 @@ export class BookService {
     id: number,
     createBookAuthorsDTO: CreateBookAuthorsDTO
   ): Promise<Book|null> {
+    try{
     const book = await this.findOne(id, true);
 
     await Promise.all(
@@ -105,12 +106,16 @@ export class BookService {
 
     await this.bookRepository.save(book);
     return book;
+    }catch(err){
+      throw new NotAcceptableException({message: `id do author não encontrado`});
+    }
   }
 
   async deleteBookAuthor(
     id: number,
     createBookAuthorsDTO: CreateBookAuthorsDTO
   ): Promise<Book|null>{
+    try{
     const book = await this.findOne(id, true);
 
     createBookAuthorsDTO.authorsId.map((authorId) => {
@@ -119,6 +124,9 @@ export class BookService {
 
     await this.bookRepository.save(book);
     return book;
+    } catch(err){
+      throw new NotAcceptableException({message: `id do author não encontrado`});
+    }
   }
 }
 
