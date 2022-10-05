@@ -34,12 +34,12 @@ export class AuthorsService {
     }
   }
 
-  async create(createAuthorDto: CreateAuthorDTO, id?: number): Promise<Author> {
+  async create(createAuthorDto: CreateAuthorDTO){
     try {
       // await this.findOneAuthorById(id); corrigir para puxar o id
     return await this.authorRepository.save(createAuthorDto);
     } catch(err) {
-      throw new ConflictException({message: `Autor já existente id: ${id}`});
+      throw new ConflictException({message: "Nome já existe ou não foi informado corretamente"});
     }
   }
 

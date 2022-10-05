@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class UpdateAuthorDto {
 
@@ -12,4 +13,9 @@ export class UpdateAuthorDto {
     message: 'Informe um autor do livro',
   })
   name?: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsArray()
+  bookId?: number[];
 }

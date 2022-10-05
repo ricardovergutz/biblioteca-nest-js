@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   NotAcceptableException,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -26,7 +27,12 @@ export class AuthorsController {
   @Post()
   @HttpCode(201)
   async create(@Body() createAuthorDTO: CreateAuthorDTO) {
-    return await this.author.create(createAuthorDTO);
+    const test = await this.author.create(createAuthorDTO);
+    if(!test){
+      throw new NotFoundException()
+    }
+    return test
+
   }
 
   @Post('books/:id')
