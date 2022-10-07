@@ -3,8 +3,7 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  PrimaryGeneratedColumn,
-  Unique,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 import { Book } from 'src/book/entities/book.entity';
 
