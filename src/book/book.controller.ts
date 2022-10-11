@@ -32,6 +32,16 @@ export class BookController {
     return await this.bookService.createBookAuthors(id, createBookAuthorsDTO);
   }
 
+  @Put('authors/:id')
+  @HttpCode(200)
+  @ApiTags('Book')
+  async updateAuthor(
+    @Param('id') id: number,
+    @Body() createBookAuthorsDTO: CreateBookAuthorsDTO,
+  ): Promise<Book | null> {
+    return await this.bookService.updateBookAuthor(id, createBookAuthorsDTO);
+  }
+
   @Delete('authors/:id')
   @HttpCode(201)
   @ApiTags('Book')
