@@ -2,10 +2,9 @@ import {
   ConflictException,
   Injectable,
   NotAcceptableException,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { async } from 'rxjs';
 import { Author } from 'src/authors/entities/author.entity';
 import { Repository } from 'typeorm';
 import { CreateBookAuthorsDTO } from './dto/create-book-authors.dto';
