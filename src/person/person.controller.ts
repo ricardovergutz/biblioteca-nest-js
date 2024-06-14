@@ -25,6 +25,7 @@ export class PersonController {
 
     @ApiTags('employee')
     @Put('change/:id')
+    @IsPublic()
     async changePerson(@Param('id') id: number, @Body() data: UpdatePersonDTO){
       const user = await this.employeeService.changePerson(id, data)
       return user
@@ -33,6 +34,7 @@ export class PersonController {
     @ApiTags('employee')
     @ApiCreatedResponse({status: 201, description: 'Cria um funcionario.'})
     @Post('employee')
+    @IsPublic()
     async employeeCreate(@Body() data: employeeDto){
       const user = await this.employeeService.create(data)
       return user

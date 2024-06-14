@@ -8,6 +8,7 @@ import { PersonEntity } from 'src/person/person.entity';
 import { UserPayload } from './models/UserPayload';
 import { JwtService } from '@nestjs/jwt';
 import { UserToken } from './models/UserToken';
+import { LoginDTO } from 'src/person/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -28,7 +29,7 @@ export class AuthService {
             access_token: jwtToken
          }
     }
-    async validateUser(email: string, password: string){
+    async validateUser({email, password}: LoginDTO){
         try{
             const employee = await this.personService.findByEmail(email) 
 

@@ -30,7 +30,7 @@ export class AuthorsService {
         relations: { books: _books },
       });
     } catch (err) {
-      throw new NotFoundException({message: "Não foi possível encontrador o autor requisitado"});
+      throw new NotFoundException({message: "Não foi possível encontrar o autor requisitado"});
     }
   }
 

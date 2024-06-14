@@ -9,7 +9,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateBookDto {
-  @ApiProperty()
+  @ApiProperty({ example: "Learning React"})
   @IsString({
     message: 'Informe uma string',
   })
@@ -19,7 +19,7 @@ export class CreateBookDto {
   })
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: "https://m.media-amazon.com/images/I/91+j1w9Vk7L._AC_UF1000,1000_QL80_.jpg"})
   @IsString({
     message: 'Informe uma string',
   })
@@ -28,15 +28,20 @@ export class CreateBookDto {
   })
   image_url: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 1 })
   @IsNumber()
   @IsNotEmpty({
-    message: 'informe um Id de genero',
+    message: 'Informe um Id de gênero',
   })
   genreId: number;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: [Number],
+    example: [ 1 ]
+  })
   @IsOptional()
-  @IsArray()
+  @IsArray( {
+    message: 'Informe a Array de Ids de Autores'
+  })
   authorsId?: number[];
 }
