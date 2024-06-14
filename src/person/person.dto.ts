@@ -10,11 +10,6 @@ export class PersonDto{
   @IsNotEmpty({
     message: 'Nome obrigatorio'
   })
-
-  @Matches(/^\b(?:[A-Z][a-z]\w+\b(?:\s*)?)+$/,{
-
-    message: 'Apenas a primeira leta maiuscula'
-  })
   @MaxLength(120)
   name: string
 

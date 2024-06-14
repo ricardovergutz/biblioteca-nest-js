@@ -4,7 +4,7 @@ import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from '
 import { CreateBookDto } from './create-book.dto';
 
 export class UpdateBookDto extends PartialType(CreateBookDto) {
-  @ApiProperty()
+  @ApiProperty({ example: "Learning React"})
   @IsString({
     message: 'Informe uma string',
   })
@@ -14,7 +14,7 @@ export class UpdateBookDto extends PartialType(CreateBookDto) {
   })
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: "https://m.media-amazon.com/images/I/91+j1w9Vk7L._AC_UF1000,1000_QL80_.jpg"})
   @IsString({
     message: 'Informe uma string',
   })
@@ -23,14 +23,17 @@ export class UpdateBookDto extends PartialType(CreateBookDto) {
   })
   image_url: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 1 })
   @IsNumber()
   @IsNotEmpty({
     message: 'informe um Id de genero',
   })
   genreId: number;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: [Number],
+    example: [ 1 ]
+  })
   @IsOptional()
   @IsArray()
   authorsId?: number[];

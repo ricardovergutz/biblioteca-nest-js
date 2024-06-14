@@ -97,6 +97,5 @@ export class BookController {
     if (!data) {
       throw new NotFoundException({ message: 'Id não encontrado' });
     }
-    return data;
   }
 }

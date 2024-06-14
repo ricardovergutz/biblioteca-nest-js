@@ -3,6 +3,7 @@ import { IsArray, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-vali
 
 export class UpdateAuthorDto {
 
+  @ApiProperty({ example: "J.R.R. Tolkien"})
   @IsString({
     message: 'O título precisa ser em formato texto',
   })
@@ -14,7 +15,9 @@ export class UpdateAuthorDto {
   })
   name?: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: [Number]
+  })
   @IsOptional()
   @IsArray()
   bookId?: number[];

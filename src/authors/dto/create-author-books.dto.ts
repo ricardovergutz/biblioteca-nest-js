@@ -2,7 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsArray } from 'class-validator';
 
 export class CreateAuthorBooksDTO {
-  @ApiProperty()
+  @ApiProperty({
+    type: [Number]
+  })
   @IsArray()
   booksId: number[];
 }

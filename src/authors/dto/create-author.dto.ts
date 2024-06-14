@@ -2,7 +2,7 @@ import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 import { CreateBookDto } from 'src/book/dto/create-book.dto';
 
-export class CreateAuthorDTO extends PartialType (CreateBookDto) {
+export class CreateAuthorDTO {
   @ApiProperty({
     description: 'O nome do autor é exibido aqui',
     example: 'J.R.R. Tolkien',
