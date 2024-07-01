@@ -80,8 +80,12 @@ export class BookService {
 
   async update(id: number, updateBookDto: UpdateBookDto) {
     try {
+      if (updateBookDto.authorsId && updateBookDto.authorsId?.length > 0){
+        await this.updateBookAuthor(id, { authorsId: updateBookDto.authorsId});
+      }
+      delete updateBookDto.authorsId;
       await this.bookRepository.update({ id }, updateBookDto);
-      return await this.bookRepository.findOne({ where: { id: id } });
+      return await this.findOne(id);
     } catch (err) {
       throw new ConflictException({ message: `${err}` });
     }
