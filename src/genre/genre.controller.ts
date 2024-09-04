@@ -40,7 +40,7 @@ export class GenreController {
   async findOne(@Param('id') id: number) {
     const genre = await this.genreService.findOne(id);
     if (!genre) {
-      throw new NotFoundException({ message: 'id não encontrado' });
+      throw new NotFoundException({ message: 'Código não encontrado' });
     }
     return genre;
   }
@@ -54,7 +54,7 @@ export class GenreController {
   ) {
     const data = await this.genreService.update(id, updateGenreDto);
     if (!data) {
-      throw new NotFoundException({ message: 'id não encontrado' });
+      throw new NotFoundException({ message: 'Código não encontrado' });
     }
     return data;
   }

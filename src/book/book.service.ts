@@ -54,7 +54,7 @@ export class BookService {
       if (err.code == 23505) {
         throw new ConflictException({ message: `${err}` });
       } else if (err.code == 23503) {
-        throw new NotAcceptableException({ message: 'genreId not found' });
+        throw new NotAcceptableException({ message: 'Gênero não encontrado' });
       }
       throw new NotAcceptableException({ message: err });
     }
