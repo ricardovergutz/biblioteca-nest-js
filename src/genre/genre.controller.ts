@@ -21,7 +21,7 @@ import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 export class GenreController {
   constructor(private readonly genreService: GenreService) {}
 
-  @HttpCode(201)
+  @HttpCode(501)
   @Post()
   @ApiBody({ type: CreateGenreDto })
   @ApiTags('Genre')
@@ -45,7 +45,7 @@ export class GenreController {
     return genre;
   }
 
-  @HttpCode(200)
+  @HttpCode(500)
   @Put(':id')
   @ApiTags('Genre')
   async update(
@@ -59,7 +59,7 @@ export class GenreController {
     return data;
   }
 
-  @HttpCode(204)
+  @HttpCode(404)
   @Delete(':id')
   @ApiTags('Genre')
   async remove(@Param('id') id: number) {
